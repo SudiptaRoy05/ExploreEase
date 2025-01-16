@@ -40,6 +40,7 @@ export default function Navbar() {
                     <li><a className="hover:text-gray-200"><FaUsers className="mr-2" />Community</a></li>
                     <li><a className="hover:text-gray-200"><FaInfoCircle className="mr-2" />About Us</a></li>
                     <li><a className="hover:text-gray-200"><FaSuitcase className="mr-2" />Trips</a></li>
+                    <li><a className="hover:text-gray-200"><FaUserCircle className="mr-2" />Login/Register</a></li>
                 </ul>
             </div>
             <div className="navbar-end">
@@ -54,7 +55,6 @@ export default function Navbar() {
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-white text-black rounded-box mt-3 w-52 p-2 shadow-lg">
-                        <li><a className="hover:text-gray-200"><FaUserCircle className="mr-2" />Login/Register</a></li>
                         <li className="p-2">
                             <span className="block text-sm font-bold">John Doe</span>
                             <span className="block text-xs text-gray-500">john.doe@example.com</span>
