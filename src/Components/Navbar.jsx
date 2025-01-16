@@ -5,9 +5,15 @@ import { useContext } from 'react';
 import { AuthContext } from '../Provider/AuthProvider';
 import { BsListNested } from 'react-icons/bs';
 export default function Navbar() {
-    const { user,logout } = useContext(AuthContext)
-    const handleLogout=()=>{
-        logout();
+    const { user, logout } = useContext(AuthContext)
+    const handleLogout = () => {
+        logout()
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
     const links = (
         <>

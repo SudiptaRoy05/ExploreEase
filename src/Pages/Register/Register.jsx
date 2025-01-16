@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import Lottie from 'lottie-react';
 import { useForm } from "react-hook-form";
 import registerAnimation from '../../assets/lottie/SignupLottie.json';
-import { FaGoogle } from 'react-icons/fa';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
+import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 
 
 
@@ -131,14 +131,8 @@ export default function Register() {
                             </button>
                         </div>
                     </form>
-                    <div className="form-control mt-4">
-                        <button className="btn btn-outline btn-google w-full flex items-center justify-center space-x-2 text-gray-700 border-gray-400 hover:bg-gray-200">
-                            <FaGoogle className="text-xl text-red-500" />
-                            <span className="text-gray-700 hover:bg-clip-text hover:text-transparent hover:bg-gradient-to-r hover:from-blue-500 hover:to-green-500">
-                                Continue with Google
-                            </span>
-                        </button>
-                    </div>
+                    {/* socialLogin  */}
+                    <SocialLogin></SocialLogin>
                 </div>
             </div>
         </div>
