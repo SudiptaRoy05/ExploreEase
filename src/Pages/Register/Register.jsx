@@ -23,14 +23,18 @@ export default function Register() {
         createUser(email, password)
             .then((result) => {
                 const user = result.user
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Registration Successful!',
-                    text: `Welcome, ${user.displayName || user.email}! Your account has been created successfully.`,
-                    showConfirmButton: true,
-                    timer: 2000,
-                });
-                reset();
+                updateUserProfile(name, image)
+                    .then(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registration Successful!',
+                            text: `Welcome, ${user.displayName || user.email}! Your account has been created successfully.`,
+                            showConfirmButton: true,
+                            timer: 2000,
+                        });
+                        reset();
+                    })
+
                 console.log(user)
             }).catch((err) => {
                 console.log(err.message)

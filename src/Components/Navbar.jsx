@@ -1,7 +1,60 @@
 import { FaHome, FaUsers, FaInfoCircle, FaSuitcase, FaUserCircle } from 'react-icons/fa';
 import logo from '../../public/LOGO.png'
 import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../Provider/AuthProvider';
+import { BsListNested } from 'react-icons/bs';
 export default function Navbar() {
+    const { user,logout } = useContext(AuthContext)
+    const handleLogout=()=>{
+        logout();
+    }
+    const links = (
+        <>
+            <li>
+                <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                        isActive ? 'text-gray-200' : 'text-gray-800'
+                    }
+                >
+                    <FaHome className="mr-2" />Home
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
+                    to="/community"
+                    className={({ isActive }) =>
+                        isActive ? 'text-gray-200' : 'text-gray-800'
+                    }
+                >
+                    <FaUsers className="mr-2" />Community
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
+                    to="/about"
+                    className={({ isActive }) =>
+                        isActive ? 'text-gray-200' : 'text-gray-800'
+                    }
+                >
+                    <FaInfoCircle className="mr-2" />About Us
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
+                    to="/trips"
+                    className={({ isActive }) =>
+                        isActive ? 'text-gray-200' : 'text-gray-800'
+                    }
+                >
+                    <FaSuitcase className="mr-2" />Trips
+                </NavLink>
+            </li>
+
+        </>
+    )
+
     return (
         <div className="navbar bg-gradient-to-r from-blue-500 to-green-400 text-white">
             <div className="navbar-start flex items-center">
@@ -23,11 +76,7 @@ export default function Navbar() {
                     <ul
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-white text-black rounded-box mt-3 w-52 p-2 shadow-lg">
-                        <li><a className="hover:bg-blue-100"><FaHome className="mr-2" />Home</a></li>
-                        <li><a className="hover:bg-blue-100"><FaUsers className="mr-2" />Community</a></li>
-                        <li><a className="hover:bg-blue-100"><FaInfoCircle className="mr-2" />About Us</a></li>
-                        <li><a className="hover:bg-blue-100"><FaSuitcase className="mr-2" />Trips</a></li>
-                        <li><a className="hover:bg-blue-100"><FaUserCircle className="mr-2" />Login/Register</a></li>
+                        {links}
                     </ul>
                 </div>
                 <a className="btn btn-ghost text-xl font-bold tracking-wide flex items-center">
@@ -37,90 +86,49 @@ export default function Navbar() {
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li>
-                        <NavLink
-                            to="/"
-                            className={({ isActive }) =>
-                                isActive ? 'text-gray-200' : 'text-gray-800'
-                            }
-                        >
-                            <FaHome className="mr-2" />Home
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/community"
-                            className={({ isActive }) =>
-                                isActive ? 'text-gray-200' : 'text-gray-800'
-                            }
-                        >
-                            <FaUsers className="mr-2" />Community
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/about"
-                            className={({ isActive }) =>
-                                isActive ? 'text-gray-200' : 'text-gray-800'
-                            }
-                        >
-                            <FaInfoCircle className="mr-2" />About Us
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/trips"
-                            className={({ isActive }) =>
-                                isActive ? 'text-gray-200' : 'text-gray-800'
-                            }
-                        >
-                            <FaSuitcase className="mr-2" />Trips
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/login"
-                            className={({ isActive }) =>
-                                isActive ? 'text-gray-200' : 'text-gray-800'
-                            }
-                        >
-                            <FaUserCircle className="mr-2" />Login
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/register"
-                            className={({ isActive }) =>
-                                isActive ? 'text-gray-200' : 'text-gray-800'
-                            }
-                        >
-                            <FaUserCircle className="mr-2" />Register
-                        </NavLink>
-                    </li>
+                    {links}
                 </ul>
 
             </div>
             <div className="navbar-end">
-                <div className="dropdown dropdown-end">
-                    <div tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                        <img
-                            src="profile-pic.jpg"
-                            alt="User Profile"
-                            className="w-10 rounded-full"
-                        />
+                {user ? (
+                    <div className="dropdown dropdown-end">
+                        <div tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                            <img
+                                src={user?.photoURL || '/default-profile.png'}
+                                alt="User Profile"
+                                className="w-10 rounded-full"
+                            />
+                        </div>
+                        <ul
+                            tabIndex={0}
+                            className="menu menu-sm dropdown-content bg-white text-black rounded-box mt-3 w-52 p-2 shadow-lg"
+                        >
+                            <li className="p-2">
+                                <span className="block text-sm font-bold">{user.displayName}</span>
+                                <span className="block text-xs text-gray-500">{user.email}</span>
+                            </li>
+                            <li>
+                                <a className="hover:bg-blue-100">Dashboard</a>
+                            </li>
+                            <li>
+                                <a className="hover:bg-blue-100">Offer Announcements</a>
+                            </li>
+
+                            <button onClick={handleLogout} className="hover:bg-blue-100 btn btn-sm btn-warning text-white">Logout</button>
+
+                        </ul>
                     </div>
-                    <ul
-                        tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-white text-black rounded-box mt-3 w-52 p-2 shadow-lg">
-                        <li className="p-2">
-                            <span className="block text-sm font-bold">John Doe</span>
-                            <span className="block text-xs text-gray-500">john.doe@example.com</span>
-                        </li>
-                        <li><a className="hover:bg-blue-100">Dashboard</a></li>
-                        <li><a className="hover:bg-blue-100">Offer Announcements</a></li>
-                        <li><a className="hover:bg-blue-100">Logout</a></li>
-                    </ul>
-                </div>
+                ) : (
+                    <div className="flex space-x-4">
+                        <NavLink to="/login" className="btn">
+                            Login
+                        </NavLink>
+                        <NavLink to="/register" className="btn">
+                            Register
+                        </NavLink>
+                    </div>
+                )}
             </div>
         </div>
     );

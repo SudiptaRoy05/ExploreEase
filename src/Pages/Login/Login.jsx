@@ -1,10 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Lottie from 'lottie-react';
 import loginAnimation from '../../assets/lottie/LoginLottie.json'; // Replace with your actual path
 import { FaRegEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
+import { AuthContext } from '../../Provider/AuthProvider';
+import Swal from 'sweetalert2';
 
 
 export default function Login() {
+    const { login } = useContext(AuthContext);
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        const form = new FormData(e.target)
+        const email = form.get('email');
+        const password = form.get('password');
+
+        login(email, password)
+            .then((result) => {
+                const user = result.user
+                console.log(user);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful',
+                    text: `Welcome back,`,
+                    confirmButtonColor: '#3085d6',
+                });
+            }).catch((err) => {
+                console.log(err.message)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: 'Invalid email or password. Please try again.',
+                    confirmButtonColor: '#d33',
+                });
+            })
+    }
     return (
         <div className="hero bg-gray-100 min-h-screen">
             <div className="hero-content flex-col lg:flex-row-reverse items-center lg:justify-between">
@@ -16,7 +46,7 @@ export default function Login() {
                     <Lottie animationData={loginAnimation} className="w-60 lg:w-80 mx-auto" />
                 </div>
                 <div className="card bg-white w-full max-w-sm shadow-lg rounded-lg p-6">
-                    <form className="space-y-4">
+                    <form onSubmit={handleLogin} className="space-y-4">
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text text-gray-700">Email</span>
