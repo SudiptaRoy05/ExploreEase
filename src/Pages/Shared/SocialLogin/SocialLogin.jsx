@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { FaGoogle } from 'react-icons/fa';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function SocialLogin() {
     const navigate = useNavigate();
@@ -10,7 +11,16 @@ export default function SocialLogin() {
         googleLogin()
             .then((result) => {
                 console.log(result)
-                navigate('/')
+                const userInfo = {
+                    name: result.user?.displayName,
+                    email: result.user?.email,
+                    image: result.user?.photoURL,
+                }
+                axios.post('http://localhost:5000/user', userInfo)
+                    .then(res => {
+                        console.log(res.data)
+                    })
+                    navigate('/')
             })
     }
 

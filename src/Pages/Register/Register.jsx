@@ -5,10 +5,15 @@ import registerAnimation from '../../assets/lottie/SignupLottie.json';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
+import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 
 export default function Register() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const formPath = location.state?.form.pathname || "/";
 
     const { register, handleSubmit, reset, formState: { errors }, } = useForm();
     const { createUser, updateUserProfile } = useContext(AuthContext);
@@ -25,6 +30,12 @@ export default function Register() {
                 const user = result.user
                 updateUserProfile(name, image)
                     .then(() => {
+                        const userInfo = {
+                            name: name,
+                            email: email,
+                            image: image,
+                        }
+                        axios.post('http://localhost:5000/user', userInfo)
                         Swal.fire({
                             icon: 'success',
                             title: 'Registration Successful!',
@@ -33,6 +44,7 @@ export default function Register() {
                             timer: 2000,
                         });
                         reset();
+                        navigate(formPath, { replace: true })
                     })
 
                 console.log(user)
