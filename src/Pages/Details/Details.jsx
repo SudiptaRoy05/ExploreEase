@@ -1,45 +1,57 @@
+import { useEffect, useRef, useContext } from "react";
+import { useLoaderData } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
 
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import { useEffect, useState } from "react";
+// Import LightGallery and plugins
+import lightGallery from "lightgallery";
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgZoom from "lightgallery/plugins/zoom";
+
+// Import LightGallery styles
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-thumbnail.css";
+import "lightgallery/css/lg-zoom.css";
 
 export default function Details() {
+    const galleryRef = useRef(null); // Ref for the gallery container
+    const { user } = useContext(AuthContext);
+    const pkgDetail = useLoaderData(); // Package details
 
-    const { id } = useParams();
-    const [details, setDetails] = useState(null);
-    
     useEffect(() => {
-        const fetchDetails = async () => {
-            try {
-                const response = await axios.get(`http://localhost:5000/allpackage/details/${id}`);
-                setDetails(response.data); 
-            } catch (error) {
-                console.error("Error fetching details:", error);
+        // Initialize LightGallery
+        const lg = lightGallery(galleryRef.current, {
+            plugins: [lgThumbnail, lgZoom],
+            speed: 500,
+            licenseKey: "your-valid-license-key", // Replace with your LightGallery license key
+        });
+
+        // Cleanup function to destroy LightGallery
+        return () => {
+            if (lg) {
+                lg.destroy();
             }
         };
-
-        if (id) {
-            fetchDetails();
-        }
-
-    }, [id]);
-
-    console.log(details)
+    }, []);
 
     return (
-        
         <div className="p-6 max-w-7xl mx-auto">
             {/* Gallery Section */}
             <section className="mb-12">
-                <h2 className="text-3xl font-semibold text-center mb-6">Explore the Tour Locations</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {details.images?.map((image, index) => (
-                        <img
+                <h2 className="text-3xl font-semibold text-center mb-6">{pkgDetail.name}</h2>
+                <div ref={galleryRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {pkgDetail.image?.map((image, index) => (
+                        <a
+                            href={image?.imageUrl}
                             key={index}
-                            src={image}
-                            alt={`Location ${index + 1}`}
-                            className="w-full h-64 object-cover rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
-                        />
+                            data-lg-size="1600-1067"
+                            className="gallery-item"
+                        >
+                            <img
+                                src={image?.imageUrl}
+                                alt={`Location ${index + 1}`}
+                                className="w-full h-64 object-cover rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
+                            />
+                        </a>
                     ))}
                 </div>
             </section>
@@ -47,34 +59,15 @@ export default function Details() {
             {/* About the Tour Section */}
             <section className="mb-12">
                 <h2 className="text-3xl font-semibold text-center mb-6">About The Tour</h2>
-                <p className="text-lg text-gray-700 mb-4">{details.description}</p>
+                <p className="text-lg text-gray-700 mb-4">{pkgDetail.description}</p>
             </section>
 
             {/* Tour Plan Section */}
             <section className="mb-12">
                 <h2 className="text-3xl font-semibold text-center mb-6">Tour Plan</h2>
-                <div className="space-y-4">
-                    {details.plan?.map((day, index) => (
-                        <div key={index} className="p-6 bg-gray-100 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                            <h3 className="text-xl font-semibold mb-2">{`Day ${index + 1}: ${day.title}`}</h3>
-                            <p className="text-gray-600">{day.description}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            {/* Tour Guides Section */}
-            <section className="mb-12">
-                <h2 className="text-3xl font-semibold text-center mb-6">Meet Our Tour Guides</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {details.guides?.map((guide, index) => (
-                        <div key={index} className="bg-white p-6 rounded-lg shadow-md text-center">
-                            <img src={guide.image} alt={guide.name} className="w-32 h-32 rounded-full mx-auto mb-4" />
-                            <h4 className="text-xl font-semibold mb-2">{guide.name}</h4>
-                            <a href={`/guide/${guide.id}`} className="text-blue-500 hover:underline">View Profile</a>
-                        </div>
-                    ))}
-                </div>
+                <p className="text-lg text-gray-700 mb-4">
+                    {pkgDetail.tourPlan || "Tour plan details are not available."}
+                </p>
             </section>
 
             {/* Booking Form Section */}
@@ -86,7 +79,7 @@ export default function Details() {
                         <label className="block text-lg font-semibold mb-2">Package Name</label>
                         <input
                             type="text"
-                            value={details.name}
+                            value={pkgDetail.name}
                             readOnly
                             className="w-full p-3 border rounded-lg bg-white text-gray-600"
                         />
@@ -96,7 +89,7 @@ export default function Details() {
                         <label className="block text-lg font-semibold mb-2">Tourist Name</label>
                         <input
                             type="text"
-                            value="Tourist Name" // Replace with dynamic user data
+                            value={user?.displayName || "Tourist Name"}
                             readOnly
                             className="w-full p-3 border rounded-lg bg-white text-gray-600"
                         />
@@ -106,7 +99,7 @@ export default function Details() {
                         <label className="block text-lg font-semibold mb-2">Tourist Email</label>
                         <input
                             type="email"
-                            value="tourist@example.com" // Replace with dynamic user data
+                            value={user?.email || "tourist@example.com"}
                             readOnly
                             className="w-full p-3 border rounded-lg bg-white text-gray-600"
                         />
@@ -119,20 +112,12 @@ export default function Details() {
                             className="w-full p-3 border rounded-lg bg-white text-gray-600"
                         />
                     </div>
-                    {/* Tour Guide */}
-                    <div>
-                        <label className="block text-lg font-semibold mb-2">Tour Guide</label>
-                        <select className="w-full p-3 border rounded-lg bg-white text-gray-600">
-                            {details.guides?.map((guide, index) => (
-                                <option key={index} value={guide.name}>
-                                    {guide.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
                     {/* Submit Button */}
                     <div>
-                        <button type="submit" className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700">
+                        <button
+                            type="submit"
+                            className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+                        >
                             Book Now
                         </button>
                     </div>

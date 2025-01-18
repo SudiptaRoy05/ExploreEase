@@ -4,9 +4,8 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const apiKey = import.meta.env.VITE_IMG_HOSTING_KEY
-const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=60000000000&key=${apiKey}`
-
+const apiKey = import.meta.env.VITE_IMG_HOSTING_KEY;
+const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=60000000000&key=${apiKey}`;
 
 export default function AddPackage() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -15,10 +14,9 @@ export default function AddPackage() {
   const onSubmit = async (data) => {
     if (data.image && data.image.length > 0) {
       try {
-        // Upload all images
         const uploadPromises = Array.from(data.image).map((file) => {
           const formData = new FormData();
-          formData.append("image", file); // Append the file
+          formData.append("image", file);
 
           return axios.post(imageHostingApi, formData, {
             headers: {
@@ -28,19 +26,15 @@ export default function AddPackage() {
         });
 
         const responses = await Promise.all(uploadPromises);
-        console.log(responses);
 
-        // Map over each response to get the uploaded image URLs
         const uploadedImages = responses.map((res) => ({
           imageUrl: res.data.data.display_url,
         }));
 
-        console.log("Uploaded Images: ", uploadedImages);
-
-        // Construct package data after successful image uploads
         const packageData = {
           name: data.name,
           description: data.description,
+          tourPlan: data.tourPlan,
           duration: data.duration,
           destination: data.destination,
           category: data.category,
@@ -49,11 +43,8 @@ export default function AddPackage() {
         };
 
         const packageRes = await axios.post('http://localhost:5000/addpackage', packageData);
-        
-        console.log("success::",packageRes);
 
         if (packageRes.status === 200) {
-          // Show success alert
           Swal.fire({
             title: "Success!",
             text: "Package has been added successfully.",
@@ -61,9 +52,7 @@ export default function AddPackage() {
             confirmButtonText: "OK",
           });
         }
-
       } catch (error) {
-        // Show error alert if something goes wrong
         console.error("Error uploading images", error);
         Swal.fire({
           title: "Error!",
@@ -73,12 +62,9 @@ export default function AddPackage() {
         });
       }
     }
-    console.log(data);
   };
 
-
   const selectedImages = watch("image");
-  console.log(selectedImages)
 
   return (
     <div className="p-6 sm:p-12 bg-white text-gray-800 rounded-lg shadow-md border-4 border-gradient-to-r from-blue-500 to-green-400">
@@ -110,6 +96,20 @@ export default function AddPackage() {
             placeholder="Describe the package"
           />
           {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="tourPlan" className="block text-sm font-semibold text-gray-700 mb-2">
+            Tour Plan
+          </label>
+          <textarea
+            id="tourPlan"
+            {...register("tourPlan", { required: "Tour plan is required" })}
+            className="w-full p-3 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            rows="4"
+            placeholder="Outline the tour plan"
+          />
+          {errors.tourPlan && <p className="text-red-500 text-sm">{errors.tourPlan.message}</p>}
         </div>
 
         <div>

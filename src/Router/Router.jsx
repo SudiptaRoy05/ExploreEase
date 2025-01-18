@@ -27,8 +27,9 @@ const router = createBrowserRouter([
                 element: <AllTrips></AllTrips>
             },
             {
-                path: '/alltrips/details/:id',
-                element: <Details></Details>
+                path: '/details/:id',
+                element: <Details></Details>,
+                loader: async ({ params }) => fetch(`http://localhost:5000/details/${params.id}`)
             },
             {
                 path: '/login',
