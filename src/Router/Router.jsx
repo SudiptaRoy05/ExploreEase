@@ -4,29 +4,39 @@ import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import AllTrips from "../Pages/AllTrips/AllTrips";
+import Details from "../Pages/Details/Details";
+import AddPackage from "../Pages/AddPackege/AddPackege";
 
 
 const router = createBrowserRouter([
     {
-        path:'/',
-        element:<Main></Main>,
-        errorElement:<h3>404 error</h3>,
-        children:[
+        path: '/',
+        element: <Main></Main>,
+        errorElement: <h3>404 error</h3>,
+        children: [
             {
-                path:'/',
-                element:<Home></Home>
+                path: '/',
+                element: <Home></Home>
             },
             {
-                path:'/alltrips',
-                element:<AllTrips></AllTrips>
+                path: '/addpackage',
+                element: <AddPackage></AddPackage>
             },
             {
-                path:'/login',
-                element:<Login></Login>
+                path: '/alltrips',
+                element: <AllTrips></AllTrips>
             },
             {
-                path:'/register',
-                element:<Register></Register>
+                path: '/alltrips/details/:id',
+                element: <Details></Details>
+            },
+            {
+                path: '/login',
+                element: <Login></Login>
+            },
+            {
+                path: '/register',
+                element: <Register></Register>
             },
 
         ]

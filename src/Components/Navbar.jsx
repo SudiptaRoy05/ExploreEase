@@ -4,8 +4,10 @@ import { NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../Provider/AuthProvider';
 import { BsListNested } from 'react-icons/bs';
+
 export default function Navbar() {
-    const { user, logout } = useContext(AuthContext)
+    const { user, logout } = useContext(AuthContext);
+
     const handleLogout = () => {
         logout()
             .then((result) => {
@@ -14,7 +16,8 @@ export default function Navbar() {
             .catch((error) => {
                 console.log(error);
             });
-    }
+    };
+
     const links = (
         <>
             <li>
@@ -49,7 +52,7 @@ export default function Navbar() {
             </li>
             <li>
                 <NavLink
-                    to="/trips"
+                    to="/alltrips"
                     className={({ isActive }) =>
                         isActive ? 'text-gray-200' : 'text-gray-800'
                     }
@@ -57,9 +60,8 @@ export default function Navbar() {
                     <FaSuitcase className="mr-2" />Trips
                 </NavLink>
             </li>
-
         </>
-    )
+    );
 
     return (
         <div className="navbar bg-gradient-to-r from-blue-500 to-green-400 text-white">
@@ -71,17 +73,20 @@ export default function Navbar() {
                             className="h-6 w-6"
                             fill="none"
                             viewBox="0 0 24 24"
-                            stroke="currentColor">
+                            stroke="currentColor"
+                        >
                             <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth="2"
-                                d="M4 6h16M4 12h8m-8 6h16" />
+                                d="M4 6h16M4 12h8m-8 6h16"
+                            />
                         </svg>
                     </div>
                     <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-white text-black rounded-box mt-3 w-52 p-2 shadow-lg">
+                        className="menu menu-sm dropdown-content bg-white text-black rounded-box mt-3 w-52 p-2 shadow-lg z-50"
+                    >
                         {links}
                     </ul>
                 </div>
@@ -94,7 +99,6 @@ export default function Navbar() {
                 <ul className="menu menu-horizontal px-1">
                     {links}
                 </ul>
-
             </div>
             <div className="navbar-end">
                 {user ? (
@@ -108,7 +112,7 @@ export default function Navbar() {
                         </div>
                         <ul
                             tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-white text-black rounded-box mt-3 w-52 p-2 shadow-lg"
+                            className="menu menu-sm dropdown-content bg-white text-black rounded-box mt-3 w-52 p-2 shadow-lg z-50"
                         >
                             <li className="p-2">
                                 <span className="block text-sm font-bold">{user.displayName}</span>
@@ -120,9 +124,9 @@ export default function Navbar() {
                             <li>
                                 <a className="hover:bg-blue-100">Offer Announcements</a>
                             </li>
-
-                            <button onClick={handleLogout} className="hover:bg-blue-100 btn btn-sm btn-warning text-white">Logout</button>
-
+                            <button onClick={handleLogout} className="hover:bg-blue-100 btn btn-sm btn-warning text-white">
+                                Logout
+                            </button>
                         </ul>
                     </div>
                 ) : (

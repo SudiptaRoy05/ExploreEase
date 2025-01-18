@@ -1,16 +1,25 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import Card from "../Shared/Card/Card";
 
 export default function AllTrips() {
-    const { data: packages,  refetch } = useQuery({
+    const { data: packages = [] } = useQuery({
         queryKey: ['packages'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/package');
-            console.log(res.data)
+            const res = await axios.get('http://localhost:5000/allpackage');
+            console.log(res.data);
             return res.data;
         },
     });
-  return (
-    <div>
-      
-    </div>
-  )
+
+    return (
+        <div className="bg-gray-100 p-6 min-h-screen">
+            <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">All Packages</h2>
+            <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {packages?.map(pkg => (
+                    <Card key={pkg._id} pkg={pkg} />
+                ))}
+            </div>
+        </div>
+    );
 }
