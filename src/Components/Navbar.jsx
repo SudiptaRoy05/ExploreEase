@@ -1,9 +1,9 @@
-import { FaHome, FaUsers, FaInfoCircle, FaSuitcase, FaUserCircle } from 'react-icons/fa';
+import { FaHome, FaUsers, FaInfoCircle, FaSuitcase, FaTachometerAlt } from 'react-icons/fa';
+
 import logo from '../../public/LOGO.png'
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../Provider/AuthProvider';
-import { BsListNested } from 'react-icons/bs';
 
 export default function Navbar() {
     const { user, logout } = useContext(AuthContext);
@@ -60,6 +60,7 @@ export default function Navbar() {
                     <FaSuitcase className="mr-2" />Trips
                 </NavLink>
             </li>
+            
         </>
     );
 
@@ -119,7 +120,9 @@ export default function Navbar() {
                                 <span className="block text-xs text-gray-500">{user.email}</span>
                             </li>
                             <li>
-                                <a className="hover:bg-blue-100">Dashboard</a>
+                                <Link to='/dashboard'>
+                                    <FaTachometerAlt className="mr-2" />Dashboard
+                                </Link>
                             </li>
                             <li>
                                 <a className="hover:bg-blue-100">Offer Announcements</a>

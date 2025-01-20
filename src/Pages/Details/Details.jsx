@@ -2,30 +2,24 @@ import { useEffect, useRef, useContext } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
-// Import LightGallery and plugins
 import lightGallery from "lightgallery";
 import lgThumbnail from "lightgallery/plugins/thumbnail";
 import lgZoom from "lightgallery/plugins/zoom";
-
-// Import LightGallery styles
 import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-thumbnail.css";
 import "lightgallery/css/lg-zoom.css";
 
 export default function Details() {
-    const galleryRef = useRef(null); // Ref for the gallery container
+    const galleryRef = useRef(null); 
     const { user } = useContext(AuthContext);
-    const pkgDetail = useLoaderData(); // Package details
-
+    const pkgDetail = useLoaderData(); 
     useEffect(() => {
-        // Initialize LightGallery
         const lg = lightGallery(galleryRef.current, {
             plugins: [lgThumbnail, lgZoom],
             speed: 500,
-            licenseKey: "your-valid-license-key", // Replace with your LightGallery license key
+            
         });
 
-        // Cleanup function to destroy LightGallery
         return () => {
             if (lg) {
                 lg.destroy();

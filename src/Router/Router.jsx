@@ -5,7 +5,9 @@ import Login from "../Pages/Login/Login";
 import Register from "../Pages/Register/Register";
 import AllTrips from "../Pages/AllTrips/AllTrips";
 import Details from "../Pages/Details/Details";
-import AddPackage from "../Pages/AddPackege/AddPackege";
+import AddPackage from "../Pages/Dashboard/AddPackege/AddPackege";
+import PrivateRoute from "./PrivateRoute";
+import Dashboard from "../Pages/Dashboard/Dashboard";
 
 
 const router = createBrowserRouter([
@@ -18,10 +20,7 @@ const router = createBrowserRouter([
                 path: '/',
                 element: <Home></Home>
             },
-            {
-                path: '/addpackage',
-                element: <AddPackage></AddPackage>
-            },
+
             {
                 path: '/alltrips',
                 element: <AllTrips></AllTrips>
@@ -40,6 +39,19 @@ const router = createBrowserRouter([
                 element: <Register></Register>
             },
 
+        ]
+    },
+    {
+        path: '/dashboard',
+        element: <PrivateRoute>
+            <Dashboard></Dashboard>
+        </PrivateRoute>,
+        errorElement: <h3>404 error</h3>,
+        children: [
+            {
+                path: '/dashboard/addpackage',
+                element: <AddPackage></AddPackage>
+            },
         ]
     }
 ])
