@@ -48,6 +48,11 @@ export default function Dashboard() {
                         </NavLink>
                     </li>
                     <li>
+                        <NavLink to='/dashboard/managepackage' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                            Manage Packages
+                        </NavLink>
+                    </li>
+                    <li>
                         <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
                             Analytics
                         </a>

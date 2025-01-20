@@ -8,6 +8,8 @@ import Details from "../Pages/Details/Details";
 import AddPackage from "../Pages/Dashboard/AddPackege/AddPackege";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import ManagePackage from "../Pages/Dashboard/ManagePackage/ManagePackage";
+import UpdatePackage from "../Pages/Dashboard/ManagePackage/UpdatePackage";
 
 
 const router = createBrowserRouter([
@@ -51,6 +53,15 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/addpackage',
                 element: <AddPackage></AddPackage>
+            },
+            {
+                path: '/dashboard/managepackage',
+                element: <ManagePackage></ManagePackage>
+            },
+            {
+                path: '/dashboard/updatepackage/:id',
+                element: <UpdatePackage></UpdatePackage>,
+                loader: async ({ params }) => fetch(`http://localhost:5000/details/${params.id}`)
             },
         ]
     }
