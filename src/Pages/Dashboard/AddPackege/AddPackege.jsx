@@ -9,7 +9,7 @@ const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=60000000000&k
 
 export default function AddPackage() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
 
   const onSubmit = async (data) => {
     if (data.image && data.image.length > 0) {

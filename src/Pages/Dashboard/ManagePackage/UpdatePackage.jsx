@@ -1,24 +1,89 @@
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useState } from "react";
+
+const apiKey = import.meta.env.VITE_IMG_HOSTING_KEY;
+const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=600&key=${apiKey}`;
 
 export default function UpdatePackage() {
     const packageData = useLoaderData() || {};
+    const [loading, setLoading] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
-            name: packageData.name || '',
-            description: packageData.description || '',
-            tourPlan: packageData.tourPlan || '',
-            price: packageData.price || '',
-            duration: packageData.duration || '',
-            destination: packageData.destination || '',
-            category: packageData.category || ''
-        }
+            name: packageData.name || "",
+            description: packageData.description || "",
+            tourPlan: packageData.tourPlan || "",
+            price: packageData.price || "",
+            duration: packageData.duration || "",
+            destination: packageData.destination || "",
+            category: packageData.category || "",
+        },
     });
 
-    const onSubmit = (data) => {
-        console.log(data);
-        // Handle package update logic here, e.g., sending data to the server
+    const onSubmit = async (data) => {
+        setLoading(true);
+
+        try {
+            // Handle image uploads if files are provided
+            let uploadedImages = [];
+            if (data.image && data.image.length > 0) {
+                const uploadPromises = Array.from(data.image).map((file) => {
+                    const formData = new FormData();
+                    formData.append("image", file);
+
+                    return axios.post(imageHostingApi, formData, {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                        },
+                    });
+                });
+
+                const responses = await Promise.all(uploadPromises);
+                uploadedImages = responses.map((res) => ({
+                    imageUrl: res.data.data.display_url,
+                }));
+            }
+
+            // Prepare package data
+            const updatedPackageData = {
+                name: data.name,
+                description: data.description,
+                tourPlan: data.tourPlan,
+                duration: data.duration,
+                destination: data.destination,
+                category: data.category,
+                price: parseFloat(data.price),
+                image: uploadedImages,
+            };
+
+            // Send PATCH request
+            const response = await axios.patch(
+                `http://localhost:5000/updatepackage/${packageData._id}`,
+                updatedPackageData
+            );
+
+            if (response.status === 200) {
+                Swal.fire({
+                    title: "Success!",
+                    text: "Package updated successfully.",
+                    icon: "success",
+                    confirmButtonText: "OK",
+                });
+            }
+        } catch (error) {
+            console.error("Error updating package:", error);
+            Swal.fire({
+                title: "Error",
+                text: "Failed to update package. Please try again.",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -89,7 +154,7 @@ export default function UpdatePackage() {
                         <input
                             type="file"
                             id="image"
-                            {...register("image", { required: "Select multiple images" })}
+                            {...register("image")}
                             multiple
                             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                         />
@@ -143,9 +208,12 @@ export default function UpdatePackage() {
                     <div>
                         <button
                             type="submit"
-                            className="w-full py-3 bg-blue-500 text-white rounded-md font-semibold shadow-md hover:bg-blue-600 transition duration-300"
+                            className={`w-full py-3 ${
+                                loading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
+                            } text-white rounded-md font-semibold shadow-md transition duration-300`}
+                            disabled={loading}
                         >
-                            Update Package
+                            {loading ? "Updating..." : "Update Package"}
                         </button>
                     </div>
                 </form>
