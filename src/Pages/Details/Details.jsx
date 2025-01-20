@@ -1,4 +1,4 @@
-import { useEffect, useRef, useContext } from "react";
+import { useEffect, useRef, useContext, useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
@@ -9,15 +9,19 @@ import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-thumbnail.css";
 import "lightgallery/css/lg-zoom.css";
 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 export default function Details() {
-    const galleryRef = useRef(null); 
+    const galleryRef = useRef(null);
     const { user } = useContext(AuthContext);
-    const pkgDetail = useLoaderData(); 
+    const pkgDetail = useLoaderData();
+    const [tourDate, setTourDate] = useState(null);
+
     useEffect(() => {
         const lg = lightGallery(galleryRef.current, {
             plugins: [lgThumbnail, lgZoom],
             speed: 500,
-            
         });
 
         return () => {
@@ -28,10 +32,10 @@ export default function Details() {
     }, []);
 
     return (
-        <div className="p-6 max-w-7xl mx-auto">
+        <div className="p-6 max-w-7xl mx-auto bg-gradient-to-b from-gray-100 to-white">
             {/* Gallery Section */}
             <section className="mb-12">
-                <h2 className="text-3xl font-semibold text-center mb-6">{pkgDetail.name}</h2>
+                <h2 className="text-4xl font-bold text-center text-gray-800 mb-6">{pkgDetail.name}</h2>
                 <div ref={galleryRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                     {pkgDetail.image?.map((image, index) => (
                         <a
@@ -52,65 +56,87 @@ export default function Details() {
 
             {/* About the Tour Section */}
             <section className="mb-12">
-                <h2 className="text-3xl font-semibold text-center mb-6">About The Tour</h2>
-                <p className="text-lg text-gray-700 mb-4">{pkgDetail.description}</p>
+                <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">About The Tour</h2>
+                <p className="text-lg text-gray-700 leading-relaxed">{pkgDetail.description}</p>
             </section>
 
             {/* Tour Plan Section */}
             <section className="mb-12">
-                <h2 className="text-3xl font-semibold text-center mb-6">Tour Plan</h2>
-                <p className="text-lg text-gray-700 mb-4">
+                <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Tour Plan</h2>
+                <p className="text-lg text-gray-700 leading-relaxed">
                     {pkgDetail.tourPlan || "Tour plan details are not available."}
                 </p>
             </section>
 
             {/* Booking Form Section */}
             <section className="mb-12">
-                <h2 className="text-3xl font-semibold text-center mb-6">Book Your Tour</h2>
-                <form className="space-y-6 bg-gray-100 p-8 rounded-lg shadow-md">
-                    {/* Package Name */}
+                <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Book Your Tour</h2>
+                <form className="space-y-6 bg-white p-8 rounded-lg shadow-md">
                     <div>
                         <label className="block text-lg font-semibold mb-2">Package Name</label>
                         <input
                             type="text"
                             value={pkgDetail.name}
                             readOnly
-                            className="w-full p-3 border rounded-lg bg-white text-gray-600"
+                            className="w-full p-3 border rounded-lg bg-gray-100 text-gray-600"
                         />
                     </div>
-                    {/* Tourist Name */}
+
                     <div>
                         <label className="block text-lg font-semibold mb-2">Tourist Name</label>
                         <input
                             type="text"
                             value={user?.displayName || "Tourist Name"}
                             readOnly
-                            className="w-full p-3 border rounded-lg bg-white text-gray-600"
+                            className="w-full p-3 border rounded-lg bg-gray-100 text-gray-600"
                         />
                     </div>
-                    {/* Tourist Email */}
+
                     <div>
                         <label className="block text-lg font-semibold mb-2">Tourist Email</label>
                         <input
                             type="email"
                             value={user?.email || "tourist@example.com"}
                             readOnly
-                            className="w-full p-3 border rounded-lg bg-white text-gray-600"
+                            className="w-full p-3 border rounded-lg bg-gray-100 text-gray-600"
                         />
                     </div>
-                    {/* Tour Date */}
+
                     <div>
                         <label className="block text-lg font-semibold mb-2">Tour Date</label>
-                        <input
-                            type="date"
-                            className="w-full p-3 border rounded-lg bg-white text-gray-600"
+                        <DatePicker
+                            selected={tourDate}
+                            onChange={(date) => setTourDate(date)}
+                            dateFormat="yyyy/MM/dd"
+                            className="w-full p-3 border rounded-lg bg-gray-100 text-gray-600"
                         />
                     </div>
+
+                    <div>
+                        <label className="block text-lg font-semibold mb-2">Tourist Image</label>
+                        <input
+                            type="text"
+                            value={user?.photoURL || "No image available"}
+                            readOnly
+                            className="w-full p-3 border rounded-lg bg-gray-100 text-gray-600"
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-lg font-semibold mb-2">Price</label>
+                        <input
+                            type="text"
+                            value={`$${pkgDetail.price}`}
+                            readOnly
+                            className="w-full p-3 border rounded-lg bg-gray-100 text-gray-600"
+                        />
+                    </div>
+
                     {/* Submit Button */}
                     <div>
                         <button
                             type="submit"
-                            className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+                            className="w-full py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300"
                         >
                             Book Now
                         </button>

@@ -43,6 +43,12 @@ export default function Dashboard() {
                     </div>
 
                     <li>
+                        <NavLink to='/dashboard/addstories' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                            Add Stories
+                        </NavLink>
+                    </li>
+
+                    <li>
                         <NavLink to='/dashboard/addpackage' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
                             Add Packages
                         </NavLink>
@@ -52,11 +58,7 @@ export default function Dashboard() {
                             Manage Packages
                         </NavLink>
                     </li>
-                    <li>
-                        <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
-                            Analytics
-                        </a>
-                    </li>
+                    
                     <li>
                         <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
                             Settings

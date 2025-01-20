@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 
 const apiKey = import.meta.env.VITE_IMG_HOSTING_KEY;
-const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=600&key=${apiKey}`;
+const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=600000000000000000&key=${apiKey}`;
 
 export default function UpdatePackage() {
     const packageData = useLoaderData() || {};
@@ -47,7 +47,6 @@ export default function UpdatePackage() {
                 }));
             }
 
-            // Prepare package data
             const updatedPackageData = {
                 name: data.name,
                 description: data.description,
@@ -59,7 +58,6 @@ export default function UpdatePackage() {
                 image: uploadedImages,
             };
 
-            // Send PATCH request
             const response = await axios.patch(
                 `http://localhost:5000/updatepackage/${packageData._id}`,
                 updatedPackageData
@@ -208,9 +206,8 @@ export default function UpdatePackage() {
                     <div>
                         <button
                             type="submit"
-                            className={`w-full py-3 ${
-                                loading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
-                            } text-white rounded-md font-semibold shadow-md transition duration-300`}
+                            className={`w-full py-3 ${loading ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
+                                } text-white rounded-md font-semibold shadow-md transition duration-300`}
                             disabled={loading}
                         >
                             {loading ? "Updating..." : "Update Package"}

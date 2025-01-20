@@ -10,6 +10,8 @@ import PrivateRoute from "./PrivateRoute";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import ManagePackage from "../Pages/Dashboard/ManagePackage/ManagePackage";
 import UpdatePackage from "../Pages/Dashboard/ManagePackage/UpdatePackage";
+import AddStories from "../Pages/Community/AddStories";
+import Stories from "../Pages/Community/Stories";
 
 
 const router = createBrowserRouter([
@@ -33,6 +35,15 @@ const router = createBrowserRouter([
                 loader: async ({ params }) => fetch(`http://localhost:5000/details/${params.id}`)
             },
             {
+                path: '/community',
+                element: <Stories></Stories>
+            },
+            {
+                path: '/community/details/:id',
+                element: <Stories></Stories>,
+                loader: async({ params }) => fetch(`http://localhost:5000/stories/${params.id}`)
+            },
+            {
                 path: '/login',
                 element: <Login></Login>
             },
@@ -50,6 +61,10 @@ const router = createBrowserRouter([
         </PrivateRoute>,
         errorElement: <h3>404 error</h3>,
         children: [
+            {
+                path: '/dashboard/addstories',
+                element: <AddStories></AddStories>
+            },
             {
                 path: '/dashboard/addpackage',
                 element: <AddPackage></AddPackage>
