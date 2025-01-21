@@ -15,6 +15,7 @@ import Stories from "../Pages/Community/Stories";
 import StoryDetails from "../Pages/Community/StoryDetails";
 import ManageStories from "../Pages/Community/ManageStories";
 import UpdateStories from "../Pages/Community/UpdateStories";
+import TourGuide from "../Pages/Dashboard/TourGuide/TourGuide";
 
 
 const router = createBrowserRouter([
@@ -76,7 +77,6 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/managestories/:email',
                 element: <ManageStories></ManageStories>,
-                // loader: async ({ params }) => fetch(`http://localhost:5000/stories/${params.email}`)
             },
             {
                 path: '/dashboard/addpackage',
@@ -90,6 +90,11 @@ const router = createBrowserRouter([
                 path: '/dashboard/updatepackage/:id',
                 element: <UpdatePackage></UpdatePackage>,
                 loader: async ({ params }) => fetch(`http://localhost:5000/details/${params.id}`)
+            },
+            {
+                path: '/dashboard/tourguide',
+                element: <TourGuide></TourGuide>,
+
             },
         ]
     }

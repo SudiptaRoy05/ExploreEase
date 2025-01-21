@@ -67,11 +67,11 @@ export default function Dashboard() {
                             Manage Packages
                         </NavLink>
                     </li>
-
+                    {/* dashboard/tourguide */}
                     <li>
-                        <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
-                            Settings
-                        </a>
+                        <NavLink to='/dashboard/tourguide' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                            Join as Tour Guide
+                        </NavLink>
                     </li>
                     <li>
                         <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
