@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 export default function Dashboard() {
+    const { user } = useContext(AuthContext);
+    const email = user.email;
     return (
         <div className="drawer lg:drawer-open min-h-screen">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -47,6 +51,11 @@ export default function Dashboard() {
                             Add Stories
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink to={`/dashboard/managestories/${email}`} className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                            Manage Stories
+                        </NavLink>
+                    </li>
 
                     <li>
                         <NavLink to='/dashboard/addpackage' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
@@ -58,7 +67,7 @@ export default function Dashboard() {
                             Manage Packages
                         </NavLink>
                     </li>
-                    
+
                     <li>
                         <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
                             Settings

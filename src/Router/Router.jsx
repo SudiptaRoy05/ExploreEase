@@ -13,6 +13,7 @@ import UpdatePackage from "../Pages/Dashboard/ManagePackage/UpdatePackage";
 import AddStories from "../Pages/Community/AddStories";
 import Stories from "../Pages/Community/Stories";
 import StoryDetails from "../Pages/Community/StoryDetails";
+import ManageStories from "../Pages/Community/ManageStories";
 
 
 const router = createBrowserRouter([
@@ -65,6 +66,11 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/addstories',
                 element: <AddStories></AddStories>
+            },
+            {
+                path: '/dashboard/managestories/:email',
+                element: <ManageStories></ManageStories>,
+                loader: async ({ params }) => fetch(`http://localhost:5000/stories/${params.email}`)
             },
             {
                 path: '/dashboard/addpackage',
