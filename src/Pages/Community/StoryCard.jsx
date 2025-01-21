@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function StoryCard({ story }) {
     return (
         <div className="card bg-base-100 shadow-xl">
@@ -20,7 +22,7 @@ export default function StoryCard({ story }) {
                         />
                         <span className="text-sm text-gray-600">{story.user.name}</span>
                     </div>
-                    <Link to='/details/${story._id}'>
+                    <Link to={`/community/details/${story._id}`}>
                         <button className="btn btn-primary">Read More</button>
                     </Link>
                 </div>
