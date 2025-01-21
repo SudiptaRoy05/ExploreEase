@@ -9,7 +9,7 @@ const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=6000000000000
 
 const AddStories = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const { user } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
 
     const onSubmit = async (data) => {
         if (data.image && data.image.length > 0) {
@@ -134,7 +134,7 @@ const AddStories = () => {
                         type="submit"
                         className="w-full py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-green-400 hover:from-green-400 hover:to-blue-500 transition-all shadow-lg"
                     >
-                        Submit Story
+                       {loading?'Processing...':'Submit Story'} 
                     </button>
                 </div>
             </form>
