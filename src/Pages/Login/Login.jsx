@@ -5,37 +5,62 @@ import { FaRegEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 export default function Login() {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const fromPath = location.state?.from?.pathname || '/';
+    console.log(fromPath)
+
     const { login } = useContext(AuthContext);
 
     const handleLogin = (e) => {
         e.preventDefault();
-        const form = new FormData(e.target)
+        const form = new FormData(e.target);
         const email = form.get('email');
         const password = form.get('password');
 
+        if (!email || !password) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: 'Please enter both email and password.',
+                confirmButtonColor: '#d33',
+            });
+            return;
+        }
+
         login(email, password)
             .then((result) => {
-                const user = result.user
-                console.log(user);
+                console.log(result);
+                const user = result?.user || {};
+                console.log('user ', user)
+
                 Swal.fire({
                     icon: 'success',
                     title: 'Login Successful',
-                    text: `Welcome back,`,
+                    text: `Welcome back`,
                     confirmButtonColor: '#3085d6',
                 });
-            }).catch((err) => {
-                console.log(err.message)
+
+                // Navigate after showing the success alert
+                navigate(fromPath, { replace: true });
+            })
+            .catch((error) => {
+                console.error(error);
+
                 Swal.fire({
                     icon: 'error',
                     title: 'Login Failed',
                     text: 'Invalid email or password. Please try again.',
                     confirmButtonColor: '#d33',
                 });
-            })
-    }
+            });
+    };
+
     return (
         <div className="hero bg-gray-100 min-h-screen">
             <div className="hero-content flex-col lg:flex-row-reverse items-center lg:justify-between">
@@ -94,7 +119,7 @@ export default function Login() {
                         </div>
 
                     </form>
-                   <SocialLogin></SocialLogin>
+                    <SocialLogin></SocialLogin>
                 </div>
             </div>
         </div>

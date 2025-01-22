@@ -16,6 +16,8 @@ import StoryDetails from "../Pages/Community/StoryDetails";
 import ManageStories from "../Pages/Community/ManageStories";
 import UpdateStories from "../Pages/Community/UpdateStories";
 import TourGuide from "../Pages/Dashboard/TourGuide/TourGuide";
+import AboutUs from "../Pages/AboutUs/AboutUs";
+import TouristProfile from "../Pages/Dashboard/Profile/TouristProfile";
 
 
 const router = createBrowserRouter([
@@ -48,6 +50,10 @@ const router = createBrowserRouter([
                 loader: async ({ params }) => fetch(`http://localhost:5000/story/details/${params.id}`)
             },
             {
+                path: '/aboutus',
+                element: <AboutUs></AboutUs>
+            },
+            {
                 path: '/login',
                 element: <Login></Login>
             },
@@ -65,6 +71,10 @@ const router = createBrowserRouter([
         </PrivateRoute>,
         errorElement: <h3>404 error</h3>,
         children: [
+            {
+                path: '/dashboard/touristprofile',
+                element: <TouristProfile></TouristProfile>,
+            },
             {
                 path: '/dashboard/addstories',
                 element: <AddStories></AddStories>

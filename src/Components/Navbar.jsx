@@ -42,7 +42,7 @@ export default function Navbar() {
             </li>
             <li>
                 <NavLink
-                    to="/about"
+                    to="/aboutus"
                     className={({ isActive }) =>
                         isActive ? 'text-gray-200' : 'text-gray-800'
                     }

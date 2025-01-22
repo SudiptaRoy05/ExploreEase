@@ -7,51 +7,84 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
     signOut,
-    updateProfile
+    updateProfile,
 } from "firebase/auth";
 import app from "../Firebase/firebase.config";
+import axios from "axios";
 
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
 
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const Provider = new GoogleAuthProvider();
+    const [loading, setLoading] = useState(true); // Start as loading
+    const googleAuthProvider = new GoogleAuthProvider();
 
-    const createUser = (email, password) => {
+    const createUser = async (email, password) => {
         setLoading(true);
-        return createUserWithEmailAndPassword(auth, email, password)
-            .finally(() => setLoading(false));
+        try {
+            return await createUserWithEmailAndPassword(auth, email, password);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const login = (email, password) => {
+    const login = async (email, password) => {
         setLoading(true);
-        return signInWithEmailAndPassword(auth, email, password)
-            .finally(() => setLoading(false));
+        try {
+            return await signInWithEmailAndPassword(auth, email, password);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const logout = () => {
+    const logout = async () => {
         setLoading(true);
-        return signOut(auth).finally(() => setLoading(false));
+        try {
+            return await signOut(auth);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const updateUserProfile = (name, image) => {
+    const updateUserProfile = async (name, image) => {
         setLoading(true);
-        return updateProfile(auth.currentUser, {
-            displayName: name,
-            photoURL: image,
-        }).finally(() => setLoading(false));
+        try {
+            return await updateProfile(auth.currentUser, {
+                displayName: name,
+                photoURL: image,
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const googleLogin = () => {
+    const googleLogin = async () => {
         setLoading(true);
-        return signInWithPopup(auth, Provider).finally(() => setLoading(false));
+        try {
+            return await signInWithPopup(auth, googleAuthProvider);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
-        const unSubscribe = onAuthStateChanged(auth, currentUser => {
+        const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
             setUser(currentUser);
+            if (currentUser) {
+                const userInfo = { email: currentUser.email };
+                try {
+                    const res = await axios.post("http://localhost:5000/jwt", userInfo);
+                    console.log(res.data.token);
+                    if (res.data.token) {
+                        localStorage.setItem("access-token", res.data.token);
+                    }
+                } catch (error) {
+                    console.error("Error fetching token:", error);
+                }
+            } else {
+                localStorage.removeItem("access-token");
+            }
             setLoading(false);
         });
         return () => unSubscribe();
