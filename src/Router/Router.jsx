@@ -18,6 +18,7 @@ import UpdateStories from "../Pages/Community/UpdateStories";
 import TourGuide from "../Pages/Dashboard/TourGuide/TourGuide";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import TouristProfile from "../Pages/Dashboard/Profile/TouristProfile";
+import GuideDetails from "../Pages/GuideDetails/GuideDetails";
 
 
 const router = createBrowserRouter([
@@ -48,6 +49,11 @@ const router = createBrowserRouter([
                 path: '/community/details/:id',
                 element: <StoryDetails></StoryDetails>,
                 loader: async ({ params }) => fetch(`http://localhost:5000/story/details/${params.id}`)
+            },
+            {
+                path: '/guide/:id',
+                element: <GuideDetails></GuideDetails>,
+                loader: async ({ params }) => fetch(`http://localhost:5000/guidedetails/${params.id}`)
             },
             {
                 path: '/aboutus',

@@ -4,9 +4,9 @@ import { FaRegListAlt, FaUserFriends } from 'react-icons/fa';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import Card from '../Shared/Card/Card';
+import { Link } from 'react-router-dom';
 
 export default function TourismandTravel() {
-    // Fetch packages
     const { data: packages, refetch: refetchPackages } = useQuery({
         queryKey: ['packages'],
         queryFn: async () => {
@@ -59,22 +59,34 @@ export default function TourismandTravel() {
                                 {guides?.map(guide => (
                                     <div
                                         key={guide._id}
-                                        className="bg-white p-6 rounded-lg shadow-md border-4 border-gradient-to-r from-blue-500 to-green-400 hover:shadow-lg transition-shadow"
+                                        className="bg-gradient-to-br from-blue-100 via-white to-green-100 p-6 rounded-lg shadow-lg border-2 border-blue-500 hover:scale-105 transition-transform duration-300 hover:shadow-xl"
                                     >
-                                        <img
-                                            src={guide?.image}
-                                            alt={guide?.name}
-                                            className="w-32 h-32 rounded-full mx-auto mb-4"
-                                        />
-                                        <h4 className="text-xl font-semibold mb-2 text-gray-800">{guide.name}</h4>
-                                        <p className="text-gray-600">{guide.expertise}</p>
+                                        <div className="relative w-32 h-32 mx-auto mb-4">
+                                            <img
+                                                src={guide?.image}
+                                                alt={guide?.name}
+                                                className="w-full h-full rounded-full border-4 border-blue-500 shadow-md"
+                                            />
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-500 to-green-400 opacity-0 group-hover:opacity-50 transition-opacity"></div>
+                                        </div>
+                                        <h4 className="text-2xl font-bold mb-2 text-gray-800 group-hover:text-blue-600 transition-colors">
+                                            {guide.name}
+                                        </h4>
+                                        <p className="text-gray-600 mb-2 text-sm">{guide.email}</p>
+                                        <Link to={`/guide/${guide._id}`}>
+                                            <button
+                                                className="mt-4 px-4 py-2 bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold rounded-lg shadow hover:opacity-90 hover:shadow-lg transition-all"
+                                            >
+                                                View Details
+                                            </button>
+                                        </Link>
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </TabPanel>
                 </div>
-            </Tabs>
-        </div>
+            </Tabs >
+        </div >
     );
 }
