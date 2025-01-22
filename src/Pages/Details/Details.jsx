@@ -11,12 +11,31 @@ import "lightgallery/css/lg-zoom.css";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 export default function Details() {
+
+    const axiosSecure = useAxiosSecure();
     const galleryRef = useRef(null);
     const { user } = useContext(AuthContext);
     const pkgDetail = useLoaderData();
     const [tourDate, setTourDate] = useState(null);
+
+    const { data: guides = [], refetch } = useQuery({
+        queryKey: ['guides'],
+        queryFn: async () => {
+            try {
+                const res = await axiosSecure.get('/allguide?role=tourguide');
+                return res.data;
+            } catch (err) {
+                throw new Error(err.response?.data?.message || 'Failed to fetch guides');
+            }
+        },
+    });
+
+
+    console.log(guides)
 
     useEffect(() => {
         const lg = lightGallery(galleryRef.current, {
@@ -68,6 +87,7 @@ export default function Details() {
                 </p>
             </section>
 
+            {/* Booking Form Section */}
             {/* Booking Form Section */}
             <section className="mb-12">
                 <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Book Your Tour</h2>
@@ -132,6 +152,24 @@ export default function Details() {
                         />
                     </div>
 
+                    {/* Guide Dropdown */}
+                    <div>
+                        <label className="block text-lg font-semibold mb-2">Select Guide</label>
+                        <select
+                            className="w-full p-3 border rounded-lg bg-gray-100 text-gray-600"
+                            defaultValue=""
+                        >
+                            <option value="" disabled>
+                                Select a guide
+                            </option>
+                            {guides.map((guide) => (
+                                <option key={guide._id} value={guide._id}>
+                                    {guide.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
                     {/* Submit Button */}
                     <div>
                         <button
@@ -143,6 +181,7 @@ export default function Details() {
                     </div>
                 </form>
             </section>
+
         </div>
     );
 }
