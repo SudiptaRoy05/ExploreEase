@@ -5,18 +5,17 @@ import useAdmin from "../../Hooks/useAdmin";
 
 export default function Dashboard() {
     const { user } = useContext(AuthContext);
-    const email = user?.email || "Unknown";
-    const [isAdmin] = useAdmin();
-
+    const email = user.email;
+    const [iaAdmin] = useAdmin();
+    console.log(iaAdmin)
     return (
         <div className="drawer lg:drawer-open min-h-screen">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
 
             <div className="drawer-content flex flex-col p-6 bg-gray-100 min-h-screen">
-                {/* Hamburger Menu */}
+                {/* Hamburger Menu (Top-Left Corner, Mobile Only) */}
                 <label
                     htmlFor="my-drawer-2"
-                    aria-label="Open Sidebar"
                     className="lg:hidden absolute top-4 left-4 flex items-center justify-center w-10 h-10"
                 >
                     <div className="space-y-1">
@@ -41,7 +40,7 @@ export default function Dashboard() {
             <div className="drawer-side">
                 <label
                     htmlFor="my-drawer-2"
-                    aria-label="Close Sidebar"
+                    aria-label="close sidebar"
                     className="drawer-overlay"
                 ></label>
                 <ul className="menu bg-gradient-to-r from-blue-600 to-green-400 text-white min-h-full w-80 p-6 shadow-lg space-y-4">
@@ -51,82 +50,36 @@ export default function Dashboard() {
                     </div>
 
                     <li>
-                        <NavLink 
-                            to='/dashboard/addstories' 
-                            className={({ isActive }) => 
-                                isActive 
-                                    ? "bg-blue-700 text-white p-3 rounded-md" 
-                                    : "hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all"
-                            }
-                        >
+                        <NavLink to='/dashboard/addstories' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
                             Add Stories
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink 
-                            to={`/dashboard/managestories/${email}`} 
-                            className={({ isActive }) => 
-                                isActive 
-                                    ? "bg-blue-700 text-white p-3 rounded-md" 
-                                    : "hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all"
-                            }
-                        >
+                        <NavLink to={`/dashboard/managestories/${email}`} className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
                             Manage Stories
                         </NavLink>
                     </li>
 
-                    {isAdmin && (
-                        <>
-                            <li>
-                                <NavLink 
-                                    to='/dashboard/addpackage' 
-                                    className={({ isActive }) => 
-                                        isActive 
-                                            ? "bg-blue-700 text-white p-3 rounded-md" 
-                                            : "hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all"
-                                    }
-                                >
-                                    Add Packages
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink 
-                                    to='/dashboard/managepackage' 
-                                    className={({ isActive }) => 
-                                        isActive 
-                                            ? "bg-blue-700 text-white p-3 rounded-md" 
-                                            : "hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all"
-                                    }
-                                >
-                                    Manage Packages
-                                </NavLink>
-                            </li>
-                        </>
-                    )}
-
                     <li>
-                        <NavLink 
-                            to='/dashboard/tourguide' 
-                            className={({ isActive }) => 
-                                isActive 
-                                    ? "bg-blue-700 text-white p-3 rounded-md" 
-                                    : "hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all"
-                            }
-                        >
+                        <NavLink to='/dashboard/addpackage' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                            Add Packages
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to='/dashboard/managepackage' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                            Manage Packages
+                        </NavLink>
+                    </li>
+                    {/* dashboard/tourguide */}
+                    <li>
+                        <NavLink to='/dashboard/tourguide' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
                             Join as Tour Guide
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink 
-                            to='/support' 
-                            className={({ isActive }) => 
-                                isActive 
-                                    ? "bg-blue-700 text-white p-3 rounded-md" 
-                                    : "hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all"
-                            }
-                        >
+                        <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
                             Support
-                        </NavLink>
+                        </a>
                     </li>
                 </ul>
             </div>

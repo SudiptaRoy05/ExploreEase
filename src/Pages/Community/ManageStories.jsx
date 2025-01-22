@@ -1,18 +1,20 @@
-import React, { useContext, useState } from 'react';
-import { Link, useLoaderData } from "react-router-dom";
+import React, { useContext } from 'react';
+import { Link } from "react-router-dom";
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useQuery } from '@tanstack/react-query';
 import { AuthContext } from '../../Provider/AuthProvider';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 function ManageStories() {
     const { user } = useContext(AuthContext);
+    const axiosSecure = useAxiosSecure();
 
     const { data: stories = [], refetch } = useQuery({
-        queryKey: ['stories', user.email], // Unique key for the query
+        queryKey: ['stories', user.email],
         queryFn: async () => {
-            const { data } = await axios.get(`http://localhost:5000/stories/${user.email}`);
+            const { data } = await axiosSecure.get(`/stories/${user.email}`);
             return data;
         },
     });
@@ -30,7 +32,7 @@ function ManageStories() {
 
         if (result.isConfirmed) {
             try {
-                const { data } = await axios.delete(`http://localhost:5000/deletestory/${id}`);
+                const { data } = await axiosSecure.delete(`axiosSecure/deletestory/${id}`);
                 console.log(data);
 
                 if (data.deletedCount > 0) {

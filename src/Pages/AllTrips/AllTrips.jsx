@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Card from "../Shared/Card/Card";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 export default function AllTrips() {
+    const axiosSecure = useAxiosSecure();
     const { data: packages = [] } = useQuery({
         queryKey: ['packages'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/allpackage');
+            const res = await axiosSecure.get('/allpackage');
             console.log(res.data);
             return res.data;
         },

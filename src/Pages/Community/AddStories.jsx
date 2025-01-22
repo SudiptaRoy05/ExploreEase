@@ -3,11 +3,13 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { useContext } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 const apiKey = import.meta.env.VITE_IMG_HOSTING_KEY;
 const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=600000000000000&key=${apiKey}`;
 
 const AddStories = () => {
+    const axiosSecure = useAxiosSecure();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { user, loading } = useContext(AuthContext);
 
@@ -42,7 +44,7 @@ const AddStories = () => {
                     },
                 };
 
-                const storiesRes = await axios.post('http://localhost:5000/addstories', story);
+                const storiesRes = await axiosSecure.post('/addstories', story);
 
                 if (storiesRes.status === 200) {
                     Swal.fire({
