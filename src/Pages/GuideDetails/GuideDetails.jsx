@@ -108,16 +108,12 @@ export default function GuideDetails() {
                             </div>
                         ))}
 
-                        {/* No Reviews Message */}
                         {reviews?.length === 0 && (
                             <p className="text-gray-600 text-center">No reviews yet. Be the first to leave one!</p>
                         )}
                     </div>
                 </div>
 
-
-
-                {/* Add Review Section */}
                 <div className="p-8 border-t bg-gray-50">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">Leave a Review</h3>
                     <form onSubmit={handleReview} className="space-y-4">

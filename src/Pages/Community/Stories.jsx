@@ -6,7 +6,7 @@ const Stories = () => {
     const { data: stories = [] } = useQuery({
         queryKey: ['stories'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/stories');
+            const res = await axios.get('http://localhost:5000/allstories');
             return res.data;
         },
     });
