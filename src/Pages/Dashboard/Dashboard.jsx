@@ -2,12 +2,18 @@ import { useContext } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import useAdmin from "../../Hooks/useAdmin";
+import useTourGuide from "../../Hooks/useTourGuid";
+import useTourist from "../../Hooks/useTourist";
 
 export default function Dashboard() {
     const { user } = useContext(AuthContext);
     const email = user.email;
+
     const [iaAdmin] = useAdmin();
-    console.log(iaAdmin)
+    const [isTourGuide] = useTourGuide();
+    const [isTourist] = useTourist();
+
+
     return (
         <div className="drawer lg:drawer-open min-h-screen">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -48,39 +54,71 @@ export default function Dashboard() {
                         <h2 className="text-2xl font-bold">Dashboard Menu</h2>
                         <p className="text-sm text-gray-200">Quick access to features</p>
                     </div>
+                    {
+                        iaAdmin && (
+                            <>
+                                <li>
+                                    <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                                        Admin Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <NavLink to='/dashboard/addpackage' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                                        Add Packages
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to='/dashboard/managepackage' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                                        Manage Packages
+                                    </NavLink>
+                                </li>
+                            </>
+                        )
+                    }
 
-                    <li>
-                        <NavLink to='/dashboard/addstories' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
-                            Add Stories
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to={`/dashboard/managestories/${email}`} className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
-                            Manage Stories
-                        </NavLink>
-                    </li>
+                    {
+                        isTourGuide && (
+                            <>
+                                <li>
+                                    <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                                        TourGuide Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <NavLink to='/dashboard/addstories' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                                        Add Stories
+                                    </NavLink>
+                                </li>
 
-                    <li>
-                        <NavLink to='/dashboard/addpackage' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
-                            Add Packages
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to='/dashboard/managepackage' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
-                            Manage Packages
-                        </NavLink>
-                    </li>
-                    {/* dashboard/tourguide */}
-                    <li>
-                        <NavLink to='/dashboard/tourguide' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
-                            Join as Tour Guide
-                        </NavLink>
-                    </li>
-                    <li>
-                        <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
-                            Support
-                        </a>
-                    </li>
+                                <li>
+                                    <NavLink to={`/dashboard/managestories/${email}`} className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                                        Manage Stories
+                                    </NavLink>
+                                </li>
+
+                            </>
+                        )
+                    }
+
+                    {
+                        isTourist && (
+                            <>
+                                <li>
+                                    <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                                        Tourist Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <NavLink to='/dashboard/tourguide' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                                        Join as Tour Guide
+                                    </NavLink>
+                                </li>
+
+                            </>
+                        )
+                    }
+
+
                 </ul>
             </div>
         </div>

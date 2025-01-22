@@ -35,7 +35,7 @@ function StoryDetails() {
                     <h2 className="text-4xl font-bold text-gray-900 mb-4">{title}</h2>
                     <div className="flex items-center space-x-4">
                         <img
-                            src={user.image}
+                            src={user?.image}
                             alt={user.name}
                             className="w-16 h-16 rounded-full shadow-md"
                         />
@@ -64,12 +64,12 @@ function StoryDetails() {
             >
                 {images.map((image, index) => (
                     <a
-                        href={image.imageUrl}
+                        href={image?.imageUrl}
                         key={index}
                         className="block overflow-hidden rounded-lg shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
                     >
                         <img
-                            src={image.imageUrl}
+                            src={image?.imageUrl}
                             alt={`Story Image ${index + 1}`}
                             className="w-full h-56 object-cover"
                         />
