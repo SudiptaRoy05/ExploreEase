@@ -20,6 +20,8 @@ import AboutUs from "../Pages/AboutUs/AboutUs";
 import TouristProfile from "../Pages/Dashboard/Profile/TouristProfile";
 import GuideDetails from "../Pages/GuideDetails/GuideDetails";
 import Profile from "../Pages/Dashboard/Profile/Profile";
+import MyBooking from "../Pages/Dashboard/MyBooking/MyBooking";
+import MyAssignedTours from "../Pages/Dashboard/TourGuide/MyAssignedTours";
 
 
 const router = createBrowserRouter([
@@ -92,8 +94,16 @@ const router = createBrowserRouter([
                 loader: async ({ params }) => fetch(`http://localhost:5000/story/details/${params.id}`)
             },
             {
+                path: '/dashboard/myassgiedtours',
+                element: <MyAssignedTours></MyAssignedTours>
+            },
+            {
                 path: '/dashboard/managestories/:email',
                 element: <ManageStories></ManageStories>,
+            },
+            {
+                path: '/dashboard/mybooking',
+                element: <MyBooking></MyBooking>
             },
             {
                 path: '/dashboard/addpackage',

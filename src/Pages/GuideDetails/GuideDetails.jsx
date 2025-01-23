@@ -30,7 +30,6 @@ export default function GuideDetails() {
 
         try {
             const { data } = await axiosSecure.post("/review", reviewData);
-            console.log(data)
             if (data.insertedId) {
                 Swal.fire({
                     icon: "success",
@@ -39,6 +38,13 @@ export default function GuideDetails() {
                     timer: 3000,
                     showConfirmButton: false,
                 });
+
+                // Reset form and rating state
+                e.target.reset();
+                setRating(0);
+
+                // Refetch the reviews to update the list
+                refetch();
             } else {
                 throw new Error("Failed to submit review.");
             }

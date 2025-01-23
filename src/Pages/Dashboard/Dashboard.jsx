@@ -80,9 +80,9 @@ export default function Dashboard() {
                         isTourGuide && (
                             <>
                                 <li>
-                                    <a className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
-                                        TourGuide Profile
-                                    </a>
+                                    <NavLink to='/dashboard/myassgiedtours' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                                        My assigned tours
+                                    </NavLink>
                                 </li>
                             </>
                         )
@@ -91,12 +91,16 @@ export default function Dashboard() {
                     {
                         isTourist && (
                             <>
-
                                 <li>
+                                    <NavLink to='/dashboard/mybooking' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                                        My Booking
+                                    </NavLink>
+                                </li>
+                                {/* <li>
                                     <NavLink to='/dashboard/tourguide' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
                                         Join as Tour Guide
                                     </NavLink>
-                                </li>
+                                </li> */}
 
                             </>
                         )
@@ -110,6 +114,12 @@ export default function Dashboard() {
                     <li>
                         <NavLink to={`/dashboard/managestories/${email}`} className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
                             Manage Stories
+                        </NavLink>
+                    </li>
+
+                    <li>
+                        <NavLink to='/' className="hover:bg-blue-500 hover:text-white p-3 rounded-md transition-all">
+                            Home
                         </NavLink>
                     </li>
 
