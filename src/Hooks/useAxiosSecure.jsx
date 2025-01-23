@@ -38,7 +38,6 @@ export default function useAxiosSecure() {
             }
         );
 
-        // Cleanup to avoid memory leaks
         return () => {
             axiosSecure.interceptors.request.eject(requestInterceptor);
             axiosSecure.interceptors.response.eject(responseInterceptor);

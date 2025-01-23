@@ -19,6 +19,7 @@ import TourGuide from "../Pages/Dashboard/TourGuide/TourGuide";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import TouristProfile from "../Pages/Dashboard/Profile/TouristProfile";
 import GuideDetails from "../Pages/GuideDetails/GuideDetails";
+import Profile from "../Pages/Dashboard/Profile/Profile";
 
 
 const router = createBrowserRouter([
@@ -78,8 +79,8 @@ const router = createBrowserRouter([
         errorElement: <h3>404 error</h3>,
         children: [
             {
-                path: '/dashboard/touristprofile',
-                element: <TouristProfile></TouristProfile>,
+                path: '/dashboard',
+                element: <Profile></Profile>
             },
             {
                 path: '/dashboard/addstories',
