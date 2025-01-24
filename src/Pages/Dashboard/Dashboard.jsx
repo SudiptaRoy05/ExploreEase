@@ -32,10 +32,6 @@ export default function Dashboard() {
 
                 {/* Page Content */}
                 <div className="flex flex-col items-center justify-center flex-grow">
-                    {/* <h1 className="text-3xl font-bold text-gray-800">Welcome to Your Dashboard</h1>
-                    <p className="text-gray-600 text-center mt-4 mb-6">
-                        Manage your activities, view insights, and customize your experience.
-                    </p> */}
                     <div className="w-full">
                         <Outlet />
                     </div>

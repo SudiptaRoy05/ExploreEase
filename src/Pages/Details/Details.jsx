@@ -51,9 +51,11 @@ export default function Details() {
         const price = form.get("price");
         const status = "pending";
         const packageName = pkgDetail.name;
+        const packageId = pkgDetail._id; 
 
         const bookingData = {
             packageName,
+            packageId,
             touristName,
             touristEmail,
             tourDate,

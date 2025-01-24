@@ -22,6 +22,7 @@ import GuideDetails from "../Pages/GuideDetails/GuideDetails";
 import Profile from "../Pages/Dashboard/Profile/Profile";
 import MyBooking from "../Pages/Dashboard/MyBooking/MyBooking";
 import MyAssignedTours from "../Pages/Dashboard/TourGuide/MyAssignedTours";
+// import Payment from "../Pages/Payment/Payment";
 
 
 const router = createBrowserRouter([
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
                 path: '/dashboard/addstories',
                 element: <AddStories></AddStories>
             },
+            // {
+            //     path:'/dashboard/patment',
+            //     element:<Payment></Payment>
+            // },
             {
                 path: '/dashboard/updatestories/:id',
                 element: <UpdateStories></UpdateStories>,

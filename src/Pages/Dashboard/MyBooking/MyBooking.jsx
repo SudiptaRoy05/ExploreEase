@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useState } from "react";
+import Payment from "../../Payment/Payment";
 
 export default function MyBooking() {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+    const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+    const [selectedBooking, setSelectedBooking] = useState(null); // Booking to pass to Payment component
 
     // Fetch bookings using React Query
-    const { data: bookings = [], isLoading, isError, error } = useQuery({
+    const { data: bookings = [], isLoading, isError, error,refetch } = useQuery({
         queryKey: ["bookings", user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/mybooking/${user?.email}`);
@@ -18,6 +22,19 @@ export default function MyBooking() {
 
     if (isLoading) return <p className="text-center text-lg text-gray-600">Loading bookings...</p>;
     if (isError) return <p className="text-center text-lg text-red-600">Error: {error.message}</p>;
+
+    // Open modal with selected booking
+    const handleOpenModal = (booking) => {
+        setSelectedBooking(booking);
+        setIsModalOpen(true);
+    };
+
+    // Close modal
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedBooking(null);
+        refetch();
+    };
 
     return (
         <div className="my-bookings-page p-6 max-w-7xl mx-auto">
@@ -53,7 +70,7 @@ export default function MyBooking() {
                         {bookings.length > 0 ? (
                             bookings.map((booking) => (
                                 <tr
-                                    key={booking.id}
+                                    key={booking._id}
                                     className="hover:bg-gray-100 transition duration-200"
                                 >
                                     <td className="py-4 px-6 text-gray-800 text-lg">
@@ -83,7 +100,10 @@ export default function MyBooking() {
                                         <div className="flex items-center space-x-4">
                                             {booking.status === "pending" && (
                                                 <>
-                                                    <button className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 shadow-sm transition duration-300">
+                                                    <button
+                                                        onClick={() => handleOpenModal(booking)}
+                                                        className="py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 shadow-sm transition duration-300"
+                                                    >
                                                         Pay
                                                     </button>
                                                     <button className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 shadow-sm transition duration-300">
@@ -108,6 +128,21 @@ export default function MyBooking() {
                     </tbody>
                 </table>
             </div>
+
+            {/* Modal */}
+            {isModalOpen && (
+                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full">
+                        <button
+                            onClick={handleCloseModal}
+                            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                        >
+                            ✖
+                        </button>
+                        <Payment selectedBooking={selectedBooking} /> 
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
