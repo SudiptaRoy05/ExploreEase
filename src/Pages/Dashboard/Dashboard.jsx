@@ -9,7 +9,7 @@ export default function Dashboard() {
     const { user } = useContext(AuthContext);
     const email = user.email;
 
-    const [iaAdmin] = useAdmin();
+    const [isAdmin] = useAdmin();
     const [isTourGuide] = useTourGuide();
     const [isTourist] = useTourist();
 
@@ -55,7 +55,7 @@ export default function Dashboard() {
                         </NavLink>
                     </li>
                     {
-                        iaAdmin && (
+                        isAdmin && (
                             <>
                                 
                                 <li>

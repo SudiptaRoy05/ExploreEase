@@ -3,6 +3,7 @@ import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useState } from "react";
 import Payment from "../../Payment/Payment";
+import Swal from "sweetalert2";
 
 export default function MyBooking() {
     const { user } = useAuth();
@@ -11,7 +12,7 @@ export default function MyBooking() {
     const [selectedBooking, setSelectedBooking] = useState(null); // Booking to pass to Payment component
 
     // Fetch bookings using React Query
-    const { data: bookings = [], isLoading, isError, error,refetch } = useQuery({
+    const { data: bookings = [], isLoading, isError, error, refetch } = useQuery({
         queryKey: ["bookings", user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/mybooking/${user?.email}`);
@@ -35,6 +36,42 @@ export default function MyBooking() {
         setSelectedBooking(null);
         refetch();
     };
+
+    const handleCancelBooking = async (id) => {
+        try {
+            const result = await Swal.fire({
+                title: "Are you sure?",
+                text: "Do you really want to cancel this booking? This action cannot be undone.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, cancel it!",
+            });
+
+            if (result.isConfirmed) {
+                const { data } = await axiosSecure.delete(`/mybooking/${id}`);
+                console.log(data);
+
+                Swal.fire({
+                    icon: "success",
+                    title: "Booking Cancelled!",
+                    text: "Your booking has been successfully cancelled.",
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
+                refetch();
+            }
+        } catch (err) {
+            console.error("Error cancelling booking:", err);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Failed to cancel the booking. Please try again.",
+            });
+        }
+    };
+
 
     return (
         <div className="my-bookings-page p-6 max-w-7xl mx-auto">
@@ -93,8 +130,7 @@ export default function MyBooking() {
                                                 : "text-red-500"
                                             }`}
                                     >
-                                        {booking.status.charAt(0).toUpperCase() +
-                                            booking.status.slice(1)}
+                                        {booking.status}
                                     </td>
                                     <td className="py-4 px-6">
                                         <div className="flex items-center space-x-4">
@@ -106,7 +142,9 @@ export default function MyBooking() {
                                                     >
                                                         Pay
                                                     </button>
-                                                    <button className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 shadow-sm transition duration-300">
+                                                    <button
+                                                        onClick={() => handleCancelBooking(booking._id)}
+                                                        className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 shadow-sm transition duration-300">
                                                         Cancel
                                                     </button>
                                                 </>
@@ -139,7 +177,7 @@ export default function MyBooking() {
                         >
                             ✖
                         </button>
-                        <Payment selectedBooking={selectedBooking} /> 
+                        <Payment selectedBooking={selectedBooking} />
                     </div>
                 </div>
             )}

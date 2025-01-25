@@ -1,156 +1,136 @@
 import { useQuery } from "@tanstack/react-query";
-import useAuth from "../../../Hooks/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { useState } from "react";
+import useAuth from "../../../Hooks/useAuth";
+import Swal from "sweetalert2";
 
 export default function MyAssignedTours() {
-    const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
-    const [modalData, setModalData] = useState(null); 
-    const { data: tours = [] } = useQuery({
-        queryKey: [user?.email, "tour"],
+    const axiosSecure = useAxiosSecure();
+
+    const { data: tours = [], refetch } = useQuery({
+        queryKey: ["tours", user?.email],
+        enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`/assigntour/${user?.email}`);
-            return res.data;
+            const { data } = await axiosSecure.get(`/assigntour/${user?.email}`);
+            return data;
         },
-        enabled: !!user?.email, 
     });
 
     const handleAccept = async (id) => {
+        const status = "Accepted";
         try {
-            await axiosSecure.patch(`/assigntour/accept/${id}`);
-            alert("Tour accepted successfully!");
+            const result = await axiosSecure.patch(`/mybooking/${id}`, { status });
+            if (result.data.modifiedCount > 0) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Tour Accepted!",
+                    text: "The tour has been successfully accepted.",
+                    confirmButtonColor: "#3085d6",
+                });
+                refetch();
+            }
         } catch (error) {
-            console.error("Error accepting tour:", error);
+            Swal.fire({
+                icon: "error",
+                title: "Error!",
+                text: "Something went wrong. Please try again.",
+                confirmButtonColor: "#d33",
+            });
         }
     };
 
     const handleReject = async (id) => {
-        try {
-            await axiosSecure.patch(`/assigntour/reject/${id}`);
-            alert("Tour rejected successfully!");
-        } catch (error) {
-            console.error("Error rejecting tour:", error);
-        }
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to undo this action!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, reject it!",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const status = "Rejected";
+                    const response = await axiosSecure.patch(`/mybooking/${id}`, { status });
+                    if (response.data.modifiedCount > 0) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Tour Rejected!",
+                            text: "The tour has been successfully rejected.",
+                            confirmButtonColor: "#3085d6",
+                        });
+                        refetch();
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Something went wrong. Please try again.",
+                        confirmButtonColor: "#d33",
+                    });
+                }
+            }
+        });
     };
 
-   
     return (
-        <div className="assigned-tours-page p-6 max-w-7xl mx-auto">
-            <h1 className="text-4xl font-extrabold text-gray-800 mb-10 text-center">
-                My Assigned Tours
-            </h1>
-
-            <div className="overflow-x-auto bg-white shadow-md rounded-lg border border-gray-200">
-                <table className="min-w-full table-auto">
-                    <thead className="bg-gradient-to-r from-green-500 to-teal-600 text-white">
+        <div className="p-6 bg-gray-50">
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">My Assigned Tours</h2>
+            <div className="overflow-x-auto bg-white shadow-md rounded-lg">
+                <table className="table-auto w-full text-left border-collapse border border-gray-200">
+                    {/* Table Head */}
+                    <thead className="bg-gray-200 text-gray-700">
                         <tr>
-                            <th className="py-4 px-6 text-left text-lg font-semibold uppercase">
-                                Package Name
-                            </th>
-                            <th className="py-4 px-6 text-left text-lg font-semibold uppercase">
-                                Tourist Name
-                            </th>
-                            <th className="py-4 px-6 text-left text-lg font-semibold uppercase">
-                                Tour Date
-                            </th>
-                            <th className="py-4 px-6 text-left text-lg font-semibold uppercase">
-                                Price
-                            </th>
-                            <th className="py-4 px-6 text-left text-lg font-semibold uppercase">
-                                Status
-                            </th>
-                            <th className="py-4 px-6 text-left text-lg font-semibold uppercase">
-                                Actions
-                            </th>
+                            <th className="px-4 py-2 border border-gray-300">#</th>
+                            <th className="px-4 py-2 border border-gray-300">Package Name</th>
+                            <th className="px-4 py-2 border border-gray-300">Tourist Name</th>
+                            <th className="px-4 py-2 border border-gray-300">Date</th>
+                            <th className="px-4 py-2 border border-gray-300">Price</th>
+                            <th className="px-4 py-2 border border-gray-300">Status</th>
+                            <th className="px-4 py-2 border border-gray-300">Action</th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
-                        {tours.map((tour) => (
+                    {/* Table Body */}
+                    <tbody className="text-gray-700">
+                        {tours.map((tour, idx) => (
                             <tr
-                                key={tour.id}
-                                className="hover:bg-gray-100 transition duration-200"
+                                key={tour._id}
+                                className="even:bg-gray-50 hover:bg-gray-100"
                             >
-                                <td className="py-4 px-6 text-gray-800 text-lg">
-                                    {tour.packageName}
-                                </td>
-                                <td className="py-4 px-6 text-gray-800 text-lg">
-                                    {tour.touristName}
-                                </td>
-                                <td className="py-4 px-6 text-gray-800 text-lg">
-                                    {tour.tourDate}
-                                </td>
-                                <td className="py-4 px-6 text-gray-800 text-lg">
-                                    ${tour.price}
-                                </td>
-                                <td
-                                    className={`py-4 px-6 text-lg font-semibold ${
-                                        tour.status === "pending"
-                                            ? "text-yellow-500"
-                                            : tour.status === "accepted"
-                                            ? "text-green-500"
-                                            : "text-red-500"
-                                    }`}
-                                >
-                                    {tour.status}
-                                </td>
-                                <td className="py-4 px-6">
-                                    <div className="flex items-center space-x-4">
-                                        <button
-                                            onClick={() => handleAccept(tour.id)}
-                                            disabled={tour.status !== "in-review"}
-                                            className={`py-2 px-4 rounded-md transition duration-300 ${
-                                                tour.status === "in-review"
-                                                    ? "bg-green-500 text-white hover:bg-green-600"
-                                                    : "bg-gray-300 text-gray-700 cursor-not-allowed"
+                                <td className="px-4 py-2 border border-gray-300">{idx + 1}</td>
+                                <td className="px-4 py-2 border border-gray-300">{tour.packageName}</td>
+                                <td className="px-4 py-2 border border-gray-300">{tour.touristName}</td>
+                                <td className="px-4 py-2 border border-gray-300">{tour.tourDate}</td>
+                                <td className="px-4 py-2 border border-gray-300">${tour.price}</td>
+                                <td className="px-4 py-2 border border-gray-300">{tour.status}</td>
+                                <td className="px-4 py-2 border border-gray-300 flex flex-wrap gap-2">
+                                    <button
+                                        onClick={() => handleAccept(tour._id)}
+                                        className={`px-3 py-1 rounded-lg ${tour.status === "Rejected"
+                                            ? "bg-gray-400 cursor-not-allowed"
+                                            : "bg-green-500 hover:bg-green-600 text-white"
                                             }`}
-                                        >
-                                            Accept
-                                        </button>
-                                        <button
-                                            onClick={() => setModalData(tour)}
-                                            className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300"
-                                        >
-                                            Reject
-                                        </button>
-                                    </div>
+                                        disabled={tour.status === "Rejected"}
+                                    >
+                                        Accept
+                                    </button>
+                                    <button
+                                        onClick={() => handleReject(tour._id)}
+                                        className={`px-3 py-1 rounded-lg ${tour.status === "Accepted"
+                                            ? "bg-gray-400 cursor-not-allowed"
+                                            : "bg-red-500 hover:bg-red-600 text-white"
+                                            }`}
+                                        disabled={tour.status === "Accepted"}
+                                    >
+                                        Reject
+                                    </button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
-
-            {/* Confirmation Modal */}
-            {modalData && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-                        <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                            Are you sure you want to reject this tour?
-                        </h2>
-                        <p className="text-gray-600 mb-6">
-                            Tour Package: <strong>{modalData.packageName}</strong>
-                        </p>
-                        <div className="flex justify-end space-x-4">
-                            <button
-                                onClick={() => setModalData(null)}
-                                className="py-2 px-4 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition duration-300"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={() => {
-                                    handleReject(modalData.id);
-                                    setModalData(null);
-                                }}
-                                className="py-2 px-4 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300"
-                            >
-                                Confirm
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
