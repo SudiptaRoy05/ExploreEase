@@ -25,9 +25,8 @@ export default function UpdateStories() {
     const onSubmit = async (data) => {
         setLoading(true);
 
-        let uploadedImages = [];
         try {
-            // Handle image uploads if files are provided
+            let uploadedImages = [];
             if (data.image && data.image.length > 0) {
                 const files = Array.from(data.image);
                 const uploadPromises = files.map((file) => {
@@ -35,9 +34,7 @@ export default function UpdateStories() {
                     formData.append('image', file);
 
                     return axios.post(imageHostingApi, formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                        },
+                        headers: { 'Content-Type': 'multipart/form-data' },
                     });
                 });
 
@@ -54,6 +51,7 @@ export default function UpdateStories() {
             };
 
             const response = await axiosSecure.patch(`/story/details/${story._id}`, updatedStories);
+            console.log("Updated response:", response.data);
 
             if (response.status === 200) {
                 reset();
@@ -76,6 +74,7 @@ export default function UpdateStories() {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="max-w-4xl mx-auto p-8 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl shadow-2xl">
@@ -148,9 +147,8 @@ export default function UpdateStories() {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-full py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-green-400 transition-all shadow-lg ${
-                            loading ? 'opacity-50 cursor-not-allowed' : 'hover:from-green-400 hover:to-blue-500'
-                        }`}
+                        className={`w-full py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-green-400 transition-all shadow-lg ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:from-green-400 hover:to-blue-500'
+                            }`}
                     >
                         {loading ? 'Updating...' : 'Update Story'}
                     </button>

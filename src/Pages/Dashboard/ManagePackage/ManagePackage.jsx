@@ -1,16 +1,54 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 export default function ManagePackage() {
-    const { data: packages = [] } = useQuery({
+    const axiosSecure = useAxiosSecure();
+    const { data: packages = [], refetch } = useQuery({
         queryKey: ['packages'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/allpackage');
+            const res = await axiosSecure.get('/allpackage');
             return res.data;
         },
     });
+    
+    const handleDelete = async (id) => {
+        const confirmation = await Swal.fire({
+            title: 'Are you sure?',
+            text: "This action cannot be undone!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+        });
+
+        if (!confirmation.isConfirmed) return;
+
+        try {
+            const response = await axiosSecure.delete(`/package/${id}`);
+            if (response.status === 200) {
+                Swal.fire({
+                    title: 'Deleted!',
+                    text: 'The package has been deleted.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                });
+                refetch();
+            }
+        } catch (error) {
+            console.error("Error deleting package:", error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'Failed to delete the package. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+        }
+    };
+
 
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
@@ -36,7 +74,7 @@ export default function ManagePackage() {
                                         <div className="avatar">
                                             <div className="mask mask-squircle h-12 w-12">
                                                 <img
-                                                    src={pkg.image[0].imageUrl}
+                                                    src={pkg?.image[0]?.imageUrl}
                                                     alt="Package"
                                                 />
                                             </div>
@@ -53,7 +91,9 @@ export default function ManagePackage() {
                                         <Link to={`/dashboard/updatepackage/${pkg._id}`}>
                                             <button className="btn btn-sm"><FaEdit className="text-green-500 cursor-pointer" size={20} /></button>
                                         </Link>
-                                        <button className="btn btn-sm"><FaTrashAlt className="text-red-500 cursor-pointer" size={20} /></button>
+                                        <button
+                                            onClick={() => handleDelete(pkg._id)}
+                                            className="btn btn-sm"><FaTrashAlt className="text-red-500 cursor-pointer" size={20} /></button>
                                     </div>
                                 </td>
                             </tr>

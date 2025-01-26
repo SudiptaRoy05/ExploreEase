@@ -16,6 +16,7 @@ export default function MyBooking() {
         queryKey: ["bookings", user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/mybooking/${user?.email}`);
+            console.log(bookings)
             return res.data;
         },
         enabled: !!user?.email,

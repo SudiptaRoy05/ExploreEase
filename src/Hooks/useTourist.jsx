@@ -14,5 +14,5 @@ export default function useTourist() {
             return res.data?.tourist || false;
         }
     })
-    return [isTourist, isTouristLOading];
+return [isTourist, isTouristLOading];
 }

@@ -16,7 +16,7 @@ function TouristProfile() {
         queryKey: ["users", user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
-            const res = await axiosSecure.get(`http://localhost:5000/user/${user.email}`);
+            const res = await axiosSecure.get(`/user/${user.email}`);
             console.log(res.data);
             return res.data;
         },

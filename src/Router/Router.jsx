@@ -22,6 +22,8 @@ import GuideDetails from "../Pages/GuideDetails/GuideDetails";
 import Profile from "../Pages/Dashboard/Profile/Profile";
 import MyBooking from "../Pages/Dashboard/MyBooking/MyBooking";
 import MyAssignedTours from "../Pages/Dashboard/TourGuide/MyAssignedTours";
+import AdminRoute from "./AdminRoute";
+import GuideRoute from "./GuideRoute";
 // import Payment from "../Pages/Payment/Payment";
 
 
@@ -100,7 +102,9 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/myassgiedtours',
-                element: <MyAssignedTours></MyAssignedTours>
+                element: <GuideRoute>
+                    <MyAssignedTours></MyAssignedTours>
+                </GuideRoute>,
             },
             {
                 path: '/dashboard/managestories/:email',
@@ -112,16 +116,22 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/addpackage',
-                element: <AddPackage></AddPackage>
+                element: <AdminRoute>
+                    <AddPackage></AddPackage>
+                </AdminRoute>,
             },
             {
-                path: '/dashboard/managepackage',
-                element: <ManagePackage></ManagePackage>
+                path: '/dashboard/allpackages',
+                element: <AdminRoute>
+                    <ManagePackage></ManagePackage>
+                </AdminRoute>
             },
             {
                 path: '/dashboard/updatepackage/:id',
-                element: <UpdatePackage></UpdatePackage>,
-                loader: async ({ params }) => fetch(`http://localhost:5000/details/${params.id}`)
+                element: <AdminRoute>
+                    <UpdatePackage></UpdatePackage>
+                </AdminRoute>,
+                loader: async ({ params }) => fetch(`http://localhost:5000/updatepackage/${params.id}`)
             },
             {
                 path: '/dashboard/tourguide',

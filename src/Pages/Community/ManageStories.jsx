@@ -61,7 +61,7 @@ function ManageStories() {
                         >
                             <figure className="relative">
                                 <img
-                                    src={story.images[0]?.imageUrl || "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"}
+                                    src={story?.images[0]?.imageUrl || "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"}
                                     alt={story.title}
                                     className="w-full h-48 object-cover"
                                 />

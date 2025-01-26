@@ -21,6 +21,7 @@ export default function Details() {
     const galleryRef = useRef(null);
     const { user } = useContext(AuthContext);
     const pkgDetail = useLoaderData();
+    console.log(pkgDetail)
     const [tourDate, setTourDate] = useState(null);
     const [selectedGuide, setSelectedGuide] = useState(null);
 
@@ -68,7 +69,7 @@ export default function Details() {
         console.log("Booking Data:", bookingData);
 
         try {
-            const { data } = await axiosSecure.post('http://localhost:5000/mybooking', bookingData);
+            const { data } = await axiosSecure.post('/mybooking', bookingData);
 
             if (data?.insertedId) {
                 Swal.fire({
