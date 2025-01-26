@@ -24,6 +24,7 @@ import MyBooking from "../Pages/Dashboard/MyBooking/MyBooking";
 import MyAssignedTours from "../Pages/Dashboard/TourGuide/MyAssignedTours";
 import AdminRoute from "./AdminRoute";
 import GuideRoute from "./GuideRoute";
+import ErrorPage from "../Components/ErrorPage";
 // import Payment from "../Pages/Payment/Payment";
 
 
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
     {
         path: '/',
         element: <Main></Main>,
-        errorElement: <h3>404 error</h3>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: '/',
@@ -81,7 +82,7 @@ const router = createBrowserRouter([
         element: <PrivateRoute>
             <Dashboard></Dashboard>
         </PrivateRoute>,
-        errorElement: <h3>404 error</h3>,
+        errorElement: <ErrorPage></ErrorPage>,
         children: [
             {
                 path: '/dashboard',

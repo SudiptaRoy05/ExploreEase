@@ -1,6 +1,6 @@
+import { motion } from 'framer-motion';
 import { FaHome, FaUsers, FaInfoCircle, FaSuitcase, FaTachometerAlt } from 'react-icons/fa';
-
-import logo from '../../public/LOGO.png'
+import logo from '../../public/LOGO.png';
 import { Link, NavLink } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../Provider/AuthProvider';
@@ -60,7 +60,6 @@ export default function Navbar() {
                     <FaSuitcase className="mr-2" />Trips
                 </NavLink>
             </li>
-            
         </>
     );
 
@@ -91,10 +90,26 @@ export default function Navbar() {
                         {links}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl font-bold tracking-wide flex items-center">
+                <motion.a
+                    className="btn btn-ghost text-xl font-bold tracking-wide flex items-center"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                >
                     <img src={logo} alt="Logo" className="h-12 w-12 mr-2" />
-                    ExploreEase
-                </a>
+                    <motion.span
+                        initial={{ scale: 0.8 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                            type: 'spring',
+                            stiffness: 300,
+                            damping: 15,
+                            duration: 0.5,
+                        }}
+                    >
+                        ExploreEase
+                    </motion.span>
+                </motion.a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
