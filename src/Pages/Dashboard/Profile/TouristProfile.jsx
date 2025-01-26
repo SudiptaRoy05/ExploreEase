@@ -34,7 +34,7 @@ function TouristProfile() {
         try {
             setModalOpen(false);
             const response = await axiosSecure.patch(
-                `http://localhost:5000/user/${user?.email}`,
+                `/user/${user?.email}`,
                 updatedData
             );
 

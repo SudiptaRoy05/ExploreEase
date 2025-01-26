@@ -94,7 +94,7 @@ export default function AllUser() {
                             <th className="px-4 py-3 border">Name</th>
                             <th className="px-4 py-3 border">Email</th>
                             <th className="px-4 py-3 border">Role</th>
-                            <th className="px-4 py-3 border">Action</th>
+                            {/* <th className="px-4 py-3 border">Action</th> */}
                         </tr>
                     </thead>
                     <tbody className="text-gray-700 text-sm">
@@ -129,11 +129,6 @@ export default function AllUser() {
                                     >
                                         {user?.role || "N/A"}
                                     </span>
-                                </td>
-                                <td className="px-4 py-3 border text-center">
-                                    <button className="px-3 py-1 bg-blue-500 text-white text-sm rounded-lg hover:bg-blue-600 transition">
-                                        Details
-                                    </button>
                                 </td>
                             </tr>
                         ))}

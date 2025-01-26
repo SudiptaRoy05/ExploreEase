@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { FaMoneyCheckAlt, FaUserFriends, FaBox, FaBookOpen, FaUsers } from "react-icons/fa";
 import AllUser from "./AllUser";
+import ManageCandidate from "./ManageCandidate";
 
 export default function AdminItem() {
     const axiosSecure = useAxiosSecure();
@@ -76,9 +77,13 @@ export default function AdminItem() {
                 </div>
             </div>
             <div>
-                Manage User
                 <div>
                     <AllUser></AllUser>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <ManageCandidate></ManageCandidate>
                 </div>
             </div>
         </div>

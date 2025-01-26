@@ -2,8 +2,10 @@ import { useContext } from "react";
 import { AuthContext } from "../../../Provider/AuthProvider";
 import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 function TourGuide() {
+    const axiosSecure = useAxiosSecure();
     const { user } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
@@ -18,7 +20,7 @@ function TourGuide() {
         };
 
         try {
-            const { data } = await axios.post('http://localhost:5000/application', applicationData);
+            const { data } = await axiosSecure.post('/application', applicationData);
 
             if (data.insertedId) {
                 Swal.fire({

@@ -2,11 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const apiKey = import.meta.env.VITE_IMG_HOSTING_KEY;
 const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=600000000000000&key=${apiKey}`;
 
 export default function AddPackage() {
+  const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
   const onSubmit = async (data) => {
@@ -40,7 +42,7 @@ export default function AddPackage() {
           image: uploadedImages,
         };
 
-        const packageRes = await axios.post('http://localhost:5000/addpackage', packageData);
+        const packageRes = await axiosSecure.post('/addpackage', packageData);
 
         if (packageRes.status === 200) {
           Swal.fire({

@@ -2,10 +2,19 @@ import React, { useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../Provider/AuthProvider';
 import { useLoaderData } from 'react-router-dom';
+import axios from 'axios';
+import useAuth from '../../Hooks/useAuth';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
+
+const apiKey = import.meta.env.VITE_IMG_HOSTING_KEY;
+const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=600000000000000000&key=${apiKey}`;
 
 export default function UpdateStories() {
+    const { setLoading, loading } = useAuth();
+    const axiosSecure = useAxiosSecure();
     const story = useLoaderData();
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             title: story?.title || '',
             content: story?.content || '',
@@ -14,7 +23,58 @@ export default function UpdateStories() {
     const { user } = useContext(AuthContext);
 
     const onSubmit = async (data) => {
-        console.log(data);
+        setLoading(true);
+
+        let uploadedImages = [];
+        try {
+            // Handle image uploads if files are provided
+            if (data.image && data.image.length > 0) {
+                const files = Array.from(data.image);
+                const uploadPromises = files.map((file) => {
+                    const formData = new FormData();
+                    formData.append('image', file);
+
+                    return axios.post(imageHostingApi, formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+                });
+
+                const responses = await Promise.all(uploadPromises);
+                uploadedImages = responses.map((res) => ({
+                    imageUrl: res.data.data.display_url,
+                }));
+            }
+
+            const updatedStories = {
+                title: data?.title,
+                content: data?.content,
+                image: [...(story.images || []), ...uploadedImages],
+            };
+
+            const response = await axiosSecure.patch(`/story/details/${story._id}`, updatedStories);
+
+            if (response.status === 200) {
+                reset();
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Story updated successfully.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                });
+            }
+        } catch (error) {
+            console.error('Error updating story:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Failed to update story. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -57,7 +117,9 @@ export default function UpdateStories() {
                         type="file"
                         multiple
                         className="file-input file-input-bordered w-full focus:ring-2 focus:ring-blue-500"
-                        {...register('image', { required: 'Image is required' })}
+                        {...register('image', {
+                            validate: (value) => value?.length > 0 || story.images?.length > 0 || 'At least one image is required',
+                        })}
                     />
                     {errors.image && <p className="text-error mt-2">{errors.image.message}</p>}
                 </div>
@@ -72,12 +134,12 @@ export default function UpdateStories() {
                         />
                     ) : (
                         <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center text-gray-500 font-bold">
-                            {user?.displayName ? user.displayName[0] : "A"}
+                            {user?.displayName ? user.displayName[0] : 'A'}
                         </div>
                     )}
                     <div>
-                        <p className="text-lg font-medium text-gray-800">{user?.displayName || "Anonymous"}</p>
-                        <p className="text-sm text-gray-500">{user?.email || "Not provided"}</p>
+                        <p className="text-lg font-medium text-gray-800">{user?.displayName || 'Anonymous'}</p>
+                        <p className="text-sm text-gray-500">{user?.email || 'Not provided'}</p>
                     </div>
                 </div>
 
@@ -85,9 +147,12 @@ export default function UpdateStories() {
                 <div>
                     <button
                         type="submit"
-                        className="w-full py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-green-400 hover:from-green-400 hover:to-blue-500 transition-all shadow-lg"
+                        disabled={loading}
+                        className={`w-full py-3 text-white font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-green-400 transition-all shadow-lg ${
+                            loading ? 'opacity-50 cursor-not-allowed' : 'hover:from-green-400 hover:to-blue-500'
+                        }`}
                     >
-                        Update Story
+                        {loading ? 'Updating...' : 'Update Story'}
                     </button>
                 </div>
             </form>

@@ -3,11 +3,13 @@ import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useState } from "react";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const apiKey = import.meta.env.VITE_IMG_HOSTING_KEY;
 const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=600000000000000000&key=${apiKey}`;
 
 export default function UpdatePackage() {
+    const axiosSecure = useAxiosSecure()
     const packageData = useLoaderData() || {};
     const [loading, setLoading] = useState(false);
 
@@ -58,8 +60,8 @@ export default function UpdatePackage() {
                 image: uploadedImages,
             };
 
-            const response = await axios.patch(
-                `http://localhost:5000/updatepackage/${packageData._id}`,
+            const response = await axiosSecure.patch(
+                `/updatepackage/${packageData._id}`,
                 updatedPackageData
             );
 
