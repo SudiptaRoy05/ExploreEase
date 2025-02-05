@@ -123,12 +123,12 @@ Ensure you have the following installed:
 ## Firebase Configuration
 ```js
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID
+    apiKey: YOUR_API_KEY,
+    authDomain: YOUR_FIREBASE_AUTH_DOMAIN,
+    projectId: YOUR_FIREBASE_PROJECT_ID,
+    storageBucket: YOUR_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: YOUR_FIREBASE_MESSAGING_SENDER_ID,
+    appId: YOUR_FIREBASE_APP_ID
 };
 
 
@@ -136,10 +136,4 @@ const firebaseConfig = {
 
 ## Contribution
 If you’d like to contribute, please fork the repository and submit a pull request with your changes.
-
-## License
-This project is licensed under the MIT License.
-
----
-A well-organized README like this ensures clarity and helps both users and developers understand the project better.
 
