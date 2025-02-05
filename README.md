@@ -69,24 +69,14 @@ Ensure you have the following installed:
    npm install
    ```
 
-3. **Set Up Environment Variables**
-   Create a `.env` file in the root directory and add the required Firebase and Stripe credentials.
-
-4. **Run the Backend**
+3. **Run the Frontend**
    ```sh
-   cd server
-   npm install
-   npm start
+   cd ExploreEase
+   npm run dev
    ```
 
-5. **Run the Frontend**
-   ```sh
-   cd client
-   npm start
-   ```
-
-6. **Access the Application**
-   Open `http://localhost:3000` in your browser.
+4. **Access the Application**
+   Open `http://localhost:5173` in your browser.
 
 ## Live Demo
 [Explore Now](https://exploreease-c6a3f.web.app/)
