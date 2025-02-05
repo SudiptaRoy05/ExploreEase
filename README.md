@@ -21,14 +21,6 @@
 - **Payments**: Stripe
 - **Other Libraries**: Framer Motion, React Share, React Datepicker
 
-## Credentials
-**Admin Login:**  
-Email: `ballavesudipta@gmail.com`  
-Password: `Aa1111!`
-
-## Repositories
-- [Frontend Repo](https://github.com/Programming-Hero-Web-Course4/b10a12-client-side-SudiptaRoy05)
-- [Backend Repo](https://github.com/Programming-Hero-Web-Course4/b10a12-server-side-SudiptaRoy05)
 
 ## Role Breakdown
 ### Tourist
