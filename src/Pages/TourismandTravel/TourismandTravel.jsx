@@ -25,7 +25,7 @@ export default function TourismandTravel() {
     });
 
     return (
-        <div className="w-10/12 mx-auto mt-6 sm:p-12 bg-white text-gray-800 mb-6 border-4 border-gradient-to-r from-blue-500 to-green-400 rounded-lg shadow-lg">
+        <div className="w-10/12 mx-auto mt-6 sm:p-12 bg-white text-gray-800 mb-6 rounded-lg shadow-lg">
             <h2 className="text-3xl font-semibold text-center mb-8 text-gray-800">Explore Our Travel Options</h2>
 
             <Tabs>

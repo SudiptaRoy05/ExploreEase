@@ -14,7 +14,7 @@ export default function RandomStory() {
     });
 
     return (
-        <div className="p-6 sm:p-12 bg-gray-50">
+        <div className="w-10/12 mx-auto sm:p-12 bg-white rounded-lg shadow-lg">
             <div className="flex justify-between items-center mb-8">
                 <h2 className="text-2xl font-semibold text-gray-800">Featured Stories</h2>
                 <div className="space-x-4">

@@ -3,39 +3,48 @@ import { Link } from "react-router-dom";
 export default function Card({ pkg }) {
     const { _id, name, image, duration, destination, category, price } = pkg;
 
-
     return (
-        <div className="card bg-base-100 shadow-xl border border-gradient-to-r from-blue-500 to-green-400">
+        <div className="group relative overflow-hidden rounded-xl bg-white shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 w-72">
             {/* Photo */}
-            {image && image.length > 0 ? (
-                <figure>
+            <div className="relative w-full h-44 overflow-hidden">
+                {image && image.length > 0 ? (
                     <img
                         src={image[0]?.imageUrl}
                         alt={name}
-                        className="w-full h-48 object-cover"
+                        className="w-full h-full object-cover rounded-t-xl group-hover:scale-105 transition-transform duration-300"
                     />
-                </figure>
-            ) : (
-                <figure className="bg-gray-200 flex items-center justify-center h-48">
-                    <p className="text-gray-500">No Image Available</p>
-                </figure>
-            )}
-            <div className="card-body">
-                <p className="badge bg-gradient-to-r from-blue-500 to-green-400 text-white px-4 py-1 rounded-full">
+                ) : (
+                    <div className="bg-gray-200 flex items-center justify-center h-full">
+                        <p className="text-gray-500 text-sm">No Image Available</p>
+                    </div>
+                )}
+                <span className="absolute top-2 left-2 bg-gradient-to-r from-blue-500 to-green-400 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-md">
                     {category}
+                </span>
+            </div>
+
+            {/* Card Content */}
+            <div className="p-4 space-y-1.5 text-left"> {/* Added text-left here */}
+                <h4 className="text-lg font-semibold text-gray-800">{name}</h4>
+                <p className="text-base text-gray-700 font-medium">
+                    <span className="font-semibold text-blue-500">Price:</span> $ {price}
                 </p>
-                <h4 className="card-title text-lg font-bold">{name}</h4>
-                <p className="text-lg text-gray-700 font-medium">Price: $ {price}</p>
-                <p className="text-sm text-gray-600">Duration: {duration} Days</p>
-                <p className="text-sm text-gray-600">Destination: {destination}</p>
-                <div className="card-actions justify-end">
-                    <Link
-                        to={`/details/${_id}`}
-                        className="btn bg-gradient-to-r from-blue-500 to-green-400 text-white hover:from-blue-600 hover:to-green-500 transition"
-                    >
-                        View Details
-                    </Link>
-                </div>
+                <p className="text-xs text-gray-600">
+                    <span className="font-medium text-green-500">Duration:</span> {duration} Days
+                </p>
+                <p className="text-xs text-gray-600">
+                    <span className="font-medium text-indigo-500">Destination:</span> {destination}
+                </p>
+            </div>
+
+            {/* Button */}
+            <div className="px-4 pb-4">
+                <Link
+                    to={`/details/${_id}`}
+                    className="block w-full text-left bg-gradient-to-r from-blue-500 to-green-400 text-white font-medium py-2 rounded-md shadow-md hover:from-blue-600 hover:to-green-500 hover:shadow-lg transition-all duration-300 text-sm px-4"
+                >
+                    View Details
+                </Link>
             </div>
         </div>
     );
