@@ -17,11 +17,12 @@ function TouristProfile() {
         enabled: !!user?.email,
         queryFn: async () => {
             const res = await axiosSecure.get(`/user/${user.email}`);
-            console.log(res.data);
+            //console.log(res.data);
             return res.data;
         },
     })
 
+    // console.log(users)
     const handleEdit = async (e) => {
         e.preventDefault();
 
@@ -29,7 +30,7 @@ function TouristProfile() {
         const updatedData = Object.fromEntries(form.entries());
         const name = form.get("displayName");
         const image = form.get("photoURL");
-        console.log("Updated Data:", updatedData);
+        //console.log("Updated Data:", updatedData);
 
         try {
             setModalOpen(false);
@@ -38,10 +39,10 @@ function TouristProfile() {
                 updatedData
             );
 
-            console.log("Server Response:", response.data);
+            //console.log("Server Response:", response.data);
             updateUserProfile(name, image)
                 .then((result) => {
-                    console.log("Updated user profile locally:", result);
+                    //console.log("Updated user profile locally:", result);
                 });
 
             Swal.fire({
@@ -63,9 +64,8 @@ function TouristProfile() {
     };
 
 
-    // const [iaAdmin] = useAdmin();
-    //     const [isTourGuide] = useTourGuide();
     const [isTourist] = useTourist();
+    // console.log(isTourist)
 
     return (
         <div className="max-w-4xl mx-auto p-8 bg-gradient-to-b from-blue-50 to-white rounded-xl shadow-xl">
@@ -92,7 +92,7 @@ function TouristProfile() {
                     </h2>
                     <p className="text-gray-500">{user?.email || "No email provided"}</p>
                     <span className="inline-block bg-blue-100 text-blue-700 text-sm px-4 py-1 rounded-full font-semibold">
-                        {users?.role || "User"}
+                        {users?.role || "user"}
                     </span>
                 </div>
 

@@ -51,7 +51,7 @@ export default function UpdateStories() {
             };
 
             const response = await axiosSecure.patch(`/story/details/${story._id}`, updatedStories);
-            console.log("Updated response:", response.data);
+            //console.log("Updated response:", response.data);
 
             if (response.status === 200) {
                 reset();

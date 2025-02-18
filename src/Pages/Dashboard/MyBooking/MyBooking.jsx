@@ -16,7 +16,7 @@ export default function MyBooking() {
         queryKey: ["bookings", user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/mybooking/${user?.email}`);
-            console.log(bookings)
+            //console.log(bookings)
             return res.data;
         },
         enabled: !!user?.email,
@@ -52,7 +52,7 @@ export default function MyBooking() {
 
             if (result.isConfirmed) {
                 const { data } = await axiosSecure.delete(`/mybooking/${id}`);
-                console.log(data);
+                //console.log(data);
 
                 Swal.fire({
                     icon: "success",

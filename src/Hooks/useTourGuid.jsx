@@ -8,16 +8,12 @@ export default function useTourGuide() {
 
     const { data: isTourGuide, isLoading: isTourGuideLoading } = useQuery({
         queryKey: [user?.email, "isTourGuide"],
-        enabled: !loading,
+        enabled: !loading && !!user?.email, // Ensures query only runs when user.email is available
         queryFn: async () => {
             const res = await axiosSecure.get(`/users/tourguide/${user?.email}`);
-            return res.data?.tourguide || false; 
+            return res.data?.tourguide || false;
         },
     });
 
     return [isTourGuide, isTourGuideLoading];
 }
-
-
-
-

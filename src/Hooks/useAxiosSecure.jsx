@@ -5,10 +5,10 @@ import { AuthContext } from "../Provider/AuthProvider";
 import axios from "axios";
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://tourmanagement-puce.vercel.app',
 });
-// http://localhost:5000
-// http://localhost:5000
+// https://tourmanagement-puce.vercel.app
+// https://tourmanagement-puce.vercel.app
 
 export default function useAxiosSecure() {
     const navigate = useNavigate();
@@ -30,7 +30,7 @@ export default function useAxiosSecure() {
             (response) => response,
             async (error) => {
                 const status = error.response?.status;
-                console.log("Status error:", status);
+                //console.log("Status error:", status);
 
                 if (status === 401 || status === 403) {
                     await logout();

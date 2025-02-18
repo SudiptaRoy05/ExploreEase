@@ -44,7 +44,7 @@ export default function AllUser() {
 
     const handleUpdate = async (e, id) => {
         e.preventDefault();
-        console.log(id)
+        //console.log(id)
         const form = new FormData(e.target);
         const name = form.get("name");
         
@@ -65,7 +65,7 @@ export default function AllUser() {
                     title: 'User Updated!',
                     text: 'The user information has been successfully updated.',
                 });
-                console.log("User updated:", name);
+                //console.log("User updated:", name);
                 closeModal();
                 refetch();
             } else {

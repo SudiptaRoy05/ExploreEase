@@ -21,7 +21,7 @@ export default function Details() {
     const galleryRef = useRef(null);
     const { user } = useContext(AuthContext);
     const pkgDetail = useLoaderData();
-    console.log(pkgDetail)
+    //console.log(pkgDetail)
     const [tourDate, setTourDate] = useState(null);
     const [selectedGuide, setSelectedGuide] = useState(null);
 
@@ -39,7 +39,7 @@ export default function Details() {
         },
     });
 
-    // console.log(guides)
+    // //console.log(guides)
 
     const handleBooking = async (e) => {
         e.preventDefault();
@@ -66,7 +66,7 @@ export default function Details() {
             status,
         };
 
-        console.log("Booking Data:", bookingData);
+        //console.log("Booking Data:", bookingData);
 
         try {
             const { data } = await axiosSecure.post('/mybooking', bookingData);

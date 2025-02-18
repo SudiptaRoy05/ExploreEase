@@ -97,7 +97,7 @@ export default function CheckoutForm({ selectedBooking, }) {
                 await axiosSecure.patch(`/mybooking/${selectedBooking?._id}`, {
                     status: "In Review",
                 });
-                console.log(res.data)
+                //console.log(res.data)
                 Swal.fire({
                     icon: "success",
                     title: "Payment Successful!",

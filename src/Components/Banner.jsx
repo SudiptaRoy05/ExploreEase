@@ -7,23 +7,19 @@ import img4 from '../assets/images/img4.jpg'
 
 export default function Banner() {
     return (
-        <div>
-            <Carousel>
+        <div className="w-10/12 mx-auto">
+            <Carousel showThumbs={false} autoPlay infiniteLoop>
                 <div>
-                    <img src={img1} />
-
+                    <img src={img1} className="h-[80vh] object-cover w-full" />
                 </div>
                 <div>
-                    <img src={img2} />
-
+                    <img src={img2} className="h-[80vh] object-cover w-full" />
                 </div>
                 <div>
-                    <img src={img3} />
-
+                    <img src={img3} className="h-[80vh] object-cover w-full" />
                 </div>
                 <div>
-                    <img src={img4} />
-
+                    <img src={img4} className="h-[80vh] object-cover w-full" />
                 </div>
             </Carousel>
         </div>

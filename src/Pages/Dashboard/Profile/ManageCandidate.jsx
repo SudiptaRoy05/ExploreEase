@@ -14,7 +14,7 @@ export default function ManageCandidate() {
 
     const handleRole = async (email) => {
         try {
-            console.log(email);
+            //console.log(email);
             const role = "tourguide";
 
             const confirmation = await Swal.fire({

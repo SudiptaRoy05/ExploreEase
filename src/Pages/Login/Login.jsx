@@ -1,21 +1,18 @@
 import React, { useContext } from 'react';
 import Lottie from 'lottie-react';
 import loginAnimation from '../../assets/lottie/LoginLottie.json'; // Replace with your actual path
-import { FaRegEnvelope, FaLock, FaGoogle } from 'react-icons/fa';
+import { FaRegEnvelope, FaLock } from 'react-icons/fa';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
 import SocialLogin from '../Shared/SocialLogin/SocialLogin';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-
 export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
-
     const fromPath = location.state?.from?.pathname || '/';
-    console.log(fromPath)
 
-    const { login } = useContext(AuthContext);
+    const { login, forgotPass } = useContext(AuthContext);
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -35,10 +32,7 @@ export default function Login() {
 
         login(email, password)
             .then((result) => {
-                console.log(result);
                 const user = result?.user || {};
-                console.log('user ', user)
-
                 Swal.fire({
                     icon: 'success',
                     title: 'Login Successful',
@@ -59,6 +53,43 @@ export default function Login() {
                     confirmButtonColor: '#d33',
                 });
             });
+    };
+
+    const handleForgotPassword = () => {
+        Swal.fire({
+            title: 'Forgot Password',
+            text: 'Enter your email address to reset your password.',
+            input: 'email',
+            inputPlaceholder: 'Enter your email',
+            showCancelButton: true,
+            confirmButtonText: 'Reset Password',
+            cancelButtonText: 'Cancel',
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Please enter a valid email!';
+                }
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const email = result.value;
+                forgotPass(email)
+                    .then(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Email Sent',
+                            text: 'A password reset email has been sent. Please check your inbox.',
+                        });
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Unable to send reset email. Please try again.',
+                        });
+                    });
+            }
+        });
     };
 
     return (
@@ -83,7 +114,7 @@ export default function Login() {
                                 </span>
                                 <input
                                     type="email"
-                                    name='email'
+                                    name="email"
                                     placeholder="Enter your email"
                                     className="input input-bordered w-full pl-10"
                                     required
@@ -100,16 +131,20 @@ export default function Login() {
                                 </span>
                                 <input
                                     type="password"
-                                    name='password'
+                                    name="password"
                                     placeholder="Enter your password"
                                     className="input input-bordered w-full pl-10"
                                     required
                                 />
                             </div>
                             <label className="label">
-                                <a href="#" className="label-text-alt text-blue-600 hover:underline">
+                                <button
+                                    type="button"
+                                    onClick={handleForgotPassword}
+                                    className="label-text-alt text-blue-600 hover:underline"
+                                >
                                     Forgot password?
-                                </a>
+                                </button>
                             </label>
                         </div>
                         <div className="form-control mt-6">
@@ -117,9 +152,8 @@ export default function Login() {
                                 Login
                             </button>
                         </div>
-
                     </form>
-                    <SocialLogin></SocialLogin>
+                    <SocialLogin />
                 </div>
             </div>
         </div>

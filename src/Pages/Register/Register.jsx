@@ -19,7 +19,7 @@ export default function Register() {
     const { createUser, updateUserProfile } = useContext(AuthContext);
 
     const onSubmit = (data) => {
-        console.log(data);
+        //console.log(data);
         const email = data.email;
         const password = data.password;
         const name = data.name;
@@ -35,7 +35,7 @@ export default function Register() {
                             email: email,
                             image: image,
                         }
-                        axios.post('http://localhost:5000/user', userInfo)
+                        axios.post('https://tourmanagement-puce.vercel.app/user', userInfo)
                         Swal.fire({
                             icon: 'success',
                             title: 'Registration Successful!',
@@ -47,9 +47,9 @@ export default function Register() {
                         navigate(formPath, { replace: true })
                     })
 
-                console.log(user)
+                //console.log(user)
             }).catch((err) => {
-                console.log(err.message)
+                //console.log(err.message)
                 Swal.fire({
                     icon: 'error',
                     title: 'Registration Failed',

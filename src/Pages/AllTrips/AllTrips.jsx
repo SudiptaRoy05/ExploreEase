@@ -9,7 +9,7 @@ export default function AllTrips() {
         queryKey: ['packages'],
         queryFn: async () => {
             const res = await axiosSecure.get('/allpackage');
-            console.log(res.data);
+            //console.log(res.data);
             return res.data;
         },
     });

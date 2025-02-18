@@ -67,7 +67,7 @@ export default function GuideDetails() {
         queryKey: ['reviews'],
         queryFn: async () => {
             const res = await axiosSecure.get(`/review/${guideData._id}`);
-            console.log(res.data)
+            //console.log(res.data)
             return res.data;
         },
     });

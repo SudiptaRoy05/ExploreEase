@@ -46,7 +46,7 @@ const router = createBrowserRouter([
             {
                 path: '/details/:id',
                 element: <Details></Details>,
-                loader: async ({ params }) => fetch(`http://localhost:5000/details/${params.id}`)
+                loader: async ({ params }) => fetch(`https://tourmanagement-puce.vercel.app/details/${params.id}`)
             },
             {
                 path: '/community',
@@ -55,12 +55,12 @@ const router = createBrowserRouter([
             {
                 path: '/community/details/:id',
                 element: <StoryDetails></StoryDetails>,
-                loader: async ({ params }) => fetch(`http://localhost:5000/story/details/${params.id}`)
+                loader: async ({ params }) => fetch(`https://tourmanagement-puce.vercel.app/story/details/${params.id}`)
             },
             {
                 path: '/guide/:id',
                 element: <GuideDetails></GuideDetails>,
-                loader: async ({ params }) => fetch(`http://localhost:5000/guidedetails/${params.id}`)
+                loader: async ({ params }) => fetch(`https://tourmanagement-puce.vercel.app/guidedetails/${params.id}`)
             },
             {
                 path: '/aboutus',
@@ -99,7 +99,7 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/updatestories/:id',
                 element: <UpdateStories></UpdateStories>,
-                loader: async ({ params }) => fetch(`http://localhost:5000/story/details/${params.id}`)
+                loader: async ({ params }) => fetch(`https://tourmanagement-puce.vercel.app/story/details/${params.id}`)
             },
             {
                 path: '/dashboard/myassgiedtours',
@@ -132,7 +132,7 @@ const router = createBrowserRouter([
                 element: <AdminRoute>
                     <UpdatePackage></UpdatePackage>
                 </AdminRoute>,
-                loader: async ({ params }) => fetch(`http://localhost:5000/updatepackage/${params.id}`)
+                loader: async ({ params }) => fetch(`https://tourmanagement-puce.vercel.app/updatepackage/${params.id}`)
             },
             {
                 path: '/dashboard/tourguide',

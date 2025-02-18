@@ -10,15 +10,15 @@ export default function SocialLogin() {
     const handelSocialLogin = () => {
         googleLogin()
             .then((result) => {
-                console.log(result)
+                //console.log(result)
                 const userInfo = {
                     name: result.user?.displayName,
                     email: result.user?.email,
                     image: result.user?.photoURL,
                 }
-                axios.post('http://localhost:5000/user', userInfo)
+                axios.post('https://tourmanagement-puce.vercel.app/user', userInfo)
                     .then(res => {
-                        console.log(res.data)
+                        //console.log(res.data)
                     })
                     navigate('/')
             })

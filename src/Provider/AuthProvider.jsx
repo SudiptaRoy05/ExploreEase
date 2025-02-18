@@ -4,6 +4,7 @@ import {
     getAuth,
     GoogleAuthProvider,
     onAuthStateChanged,
+    sendPasswordResetEmail,
     signInWithEmailAndPassword,
     signInWithPopup,
     signOut,
@@ -47,6 +48,17 @@ export default function AuthProvider({ children }) {
         }
     };
 
+
+    const forgotPass = async (email) => {
+        setLoading(true); // Start loading before the operation
+        try {
+            return await sendPasswordResetEmail(auth, email);
+        } finally {
+            setLoading(false); // Stop loading after the operation completes
+        }
+    };
+
+
     const updateUserProfile = async (name, image) => {
         setLoading(true);
         try {
@@ -74,8 +86,8 @@ export default function AuthProvider({ children }) {
             if (currentUser) {
                 const userInfo = { email: currentUser.email };
                 try {
-                    const res = await axios.post("http://localhost:5000/jwt", userInfo);
-                    console.log(res.data.token);
+                    const res = await axios.post("https://tourmanagement-puce.vercel.app/jwt", userInfo);
+                    //console.log(res.data.token);
                     if (res.data.token) {
                         localStorage.setItem("access-token", res.data.token);
                     }
@@ -96,6 +108,7 @@ export default function AuthProvider({ children }) {
         loading,
         setLoading,
         createUser,
+        forgotPass,
         login,
         logout,
         googleLogin,

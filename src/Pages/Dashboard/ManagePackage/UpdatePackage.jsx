@@ -11,7 +11,7 @@ const imageHostingApi = `https://api.imgbb.com/1/upload?expiration=6000000000000
 export default function UpdatePackage() {
     const axiosSecure = useAxiosSecure()
     const packageData = useLoaderData() || {};
-    console.log(packageData)
+    //console.log(packageData)
     const [loading, setLoading] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm({

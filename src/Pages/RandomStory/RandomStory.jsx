@@ -7,8 +7,8 @@ export default function RandomStory() {
     const { data: stories = [] } = useQuery({
         queryKey: ['story'],
         queryFn: async () => {
-            const res = await axios.get('http://localhost:5000/stories');
-            console.log(res.data);
+            const res = await axios.get('https://tourmanagement-puce.vercel.app/stories');
+            //console.log(res.data);
             return res.data;
         },
     });
