@@ -43,13 +43,13 @@ function ManageStories() {
     };
 
     return (
-        <div className="max-w-7xl mx-auto p-6 sm:p-12 bg-gray-50 rounded-lg shadow-md">
-            <h1 className="text-4xl font-extrabold text-center text-blue-600 mb-12">
+        <div className="max-w-7xl mx-auto p-6 sm:p-12  rounded-lg shadow-lg">
+            <h1 className="text-4xl font-extrabold text-center text-white mb-12">
                 Manage Your Stories
             </h1>
 
             {stories.length === 0 ? (
-                <div className="text-center text-gray-500 font-medium">
+                <div className="text-center text-gray-400 font-medium">
                     <p>No stories available.</p>
                 </div>
             ) : (
@@ -57,7 +57,7 @@ function ManageStories() {
                     {stories.map(story => (
                         <div
                             key={story._id}
-                            className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105"
+                            className="bg-gray-800 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105"
                         >
                             <figure className="relative">
                                 <img
@@ -70,19 +70,19 @@ function ManageStories() {
                                 </div>
                             </figure>
                             <div className="p-6">
-                                <p className="text-gray-600 mb-4">
+                                <p className="text-gray-300 mb-4">
                                     {story.content.slice(0, 100)}...
                                 </p>
                                 <div className="flex justify-between items-center">
                                     <Link to={`/dashboard/updatestories/${story._id}`}>
-                                        <button className="btn btn-sm bg-blue-500 text-white flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-blue-600">
+                                        <button className="btn btn-sm bg-blue-600 text-white flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-blue-700 transition-all">
                                             <FaEdit className="h-4 w-4" />
                                             <span>Edit</span>
                                         </button>
                                     </Link>
                                     <button
                                         onClick={() => handleDelete(story._id)}
-                                        className="btn btn-sm bg-red-500 text-white flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-red-600"
+                                        className="btn btn-sm bg-red-600 text-white flex items-center space-x-2 px-4 py-2 rounded-md hover:bg-red-700 transition-all"
                                     >
                                         <FaTrash className="h-4 w-4" />
                                         <span>Delete</span>

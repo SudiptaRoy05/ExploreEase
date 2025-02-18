@@ -44,7 +44,6 @@ export default function AllUser() {
 
     const handleUpdate = async (e, id) => {
         e.preventDefault();
-        //console.log(id)
         const form = new FormData(e.target);
         const name = form.get("name");
         
@@ -65,7 +64,6 @@ export default function AllUser() {
                     title: 'User Updated!',
                     text: 'The user information has been successfully updated.',
                 });
-                //console.log("User updated:", name);
                 closeModal();
                 refetch();
             } else {
@@ -85,7 +83,6 @@ export default function AllUser() {
         }
     };
     
-
 
     const roleOptions = [
         { value: "admin", label: "Admin" },
@@ -112,14 +109,14 @@ export default function AllUser() {
     }
 
     return (
-        <div className="p-6">
-            <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+        <div className=" min-h-screen">
+            <h2 className="text-3xl font-bold text-white mb-6 text-center">
                 All Users
             </h2>
             <div className="mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
                 <form
                     onSubmit={handleSearch}
-                    className="w-full md:w-2/3 flex items-center gap-2 bg-white p-4 rounded-lg shadow-sm"
+                    className="w-full md:w-2/3 flex items-center gap-2 p-4 rounded-lg shadow-sm"
                 >
                     <input
                         type="text"
@@ -144,29 +141,29 @@ export default function AllUser() {
                 />
             </div>
             {/* User Table */}
-            <div className="overflow-x-auto bg-white shadow-lg rounded-lg">
-                <table className="min-w-full table-auto border-collapse">
-                    <thead className="bg-blue-500 text-white text-sm uppercase">
+            <div className="overflow-x-auto bg-gray-800 shadow-lg rounded-lg">
+                <table className="min-w-full table-auto border-collapse text-white">
+                    <thead className="bg-blue-700 text-xs uppercase">
                         <tr>
-                            <th className="px-4 py-3 border">#</th>
-                            <th className="px-4 py-3 border">Image</th>
-                            <th className="px-4 py-3 border">Name</th>
-                            <th className="px-4 py-3 border">Email</th>
-                            <th className="px-4 py-3 border">Role</th>
-                            <th className="px-4 py-3 border">Action</th>
+                            <th className="px-3 py-2 border">#</th>
+                            <th className="px-3 py-2 border">Image</th>
+                            <th className="px-3 py-2 border">Name</th>
+                            <th className="px-3 py-2 border">Email</th>
+                            <th className="px-3 py-2 border">Role</th>
+                            <th className="px-3 py-2 border">Action</th>
                         </tr>
                     </thead>
-                    <tbody className="text-gray-700 text-sm">
+                    <tbody className="text-gray-200 text-sm">
                         {users.map((user, idx) => (
                             <tr
                                 key={user._id}
-                                className="even:bg-gray-50 hover:bg-gray-100 transition-all"
+                                className="even:bg-gray-700 hover:bg-gray-600 transition-all"
                             >
-                                <td className="px-4 py-3 border text-center">{idx + 1}</td>
-                                <td className="px-4 py-3 border text-center">
+                                <td className="px-3 py-2 border text-center">{idx + 1}</td>
+                                <td className="px-3 py-2 border text-center">
                                     <div className="flex items-center justify-center">
                                         <div className="avatar">
-                                            <div className="mask mask-squircle h-12 w-12">
+                                            <div className="mask mask-squircle h-10 w-10">
                                                 <img
                                                     src={user?.image || "/default-avatar.png"}
                                                     alt={user?.name || "User Avatar"}
@@ -175,9 +172,9 @@ export default function AllUser() {
                                         </div>
                                     </div>
                                 </td>
-                                <td className="px-4 py-3 border">{user?.name}</td>
-                                <td className="px-4 py-3 border">{user?.email}</td>
-                                <td className="px-4 py-3 border text-center">
+                                <td className="px-3 py-2 border">{user?.name}</td>
+                                <td className="px-3 py-2 border">{user?.email}</td>
+                                <td className="px-3 py-2 border text-center">
                                     <span
                                         className={`px-2 py-1 rounded-full text-xs ${user?.role === "Admin"
                                             ? "bg-green-100 text-green-600"
@@ -189,7 +186,7 @@ export default function AllUser() {
                                         {user?.role || "N/A"}
                                     </span>
                                 </td>
-                                <td className="px-4 py-3 border text-center">
+                                <td className="px-3 py-2 border text-center">
                                     <button
                                         onClick={() => openModal(user)}
                                         className="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow"
@@ -205,8 +202,8 @@ export default function AllUser() {
 
             {/* Simple Modal for User Details */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white rounded-lg p-6 w-full max-w-md">
+                <div className="fixed inset-0 flex justify-center items-center">
+                    <div className=" rounded-lg p-6 w-full max-w-md">
                         <h3 className="text-lg font-bold mb-4">Edit User Details</h3>
                         <form onSubmit={(e) => handleUpdate(e, selectedUser._id)}>
                             <div className="mb-4">
