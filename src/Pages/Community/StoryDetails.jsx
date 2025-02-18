@@ -28,24 +28,24 @@ function StoryDetails() {
     }, []);
 
     return (
-        <div className="max-w-6xl mx-auto p-6 sm:p-12 bg-gradient-to-r from-blue-50 to-white rounded-lg shadow-xl">
+        <div className="max-w-6xl mx-auto p-8 sm:p-12 bg-white rounded-lg shadow-2xl my-6">
             {/* Title and User Info */}
-            <div className="flex flex-col md:flex-row justify-between items-center mb-12 space-y-6 md:space-y-0">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-14 space-y-6 md:space-y-0">
                 <div className="text-center md:text-left">
                     <h2 className="text-4xl font-extrabold text-gray-900 mb-4">{title}</h2>
-                    <div className="flex items-center space-x-4 justify-center md:justify-start">
+                    <div className="flex items-center space-x-6 justify-center md:justify-start">
                         <img
                             src={user?.image}
                             alt={user?.name}
-                            className="w-16 h-16 rounded-full shadow-lg border-4 border-white"
+                            className="w-20 h-20 rounded-full shadow-lg border-4 border-white"
                         />
                         <div className="text-left">
-                            <p className="text-lg font-semibold text-gray-700">{user?.name}</p>
+                            <p className="text-lg font-semibold text-gray-800">{user?.name}</p>
                             <p className="text-sm text-gray-500">Story Author</p>
                         </div>
                     </div>
                 </div>
-                <div className="mt-6 md:mt-0 flex justify-center md:justify-end space-x-6">
+                <div className="flex justify-center md:justify-end space-x-6">
                     <FacebookShareButton url={shareUrl} quote={title}>
                         <FacebookIcon size={40} round />
                     </FacebookShareButton>
@@ -61,25 +61,25 @@ function StoryDetails() {
             {/* Gallery Section */}
             <div
                 id="lightgallery"
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-14"
             >
                 {images.map((image, index) => (
                     <a
                         href={image?.imageUrl}
                         key={index}
-                        className="block overflow-hidden rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
+                        className="block overflow-hidden rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl"
                     >
                         <img
                             src={image?.imageUrl}
                             alt={`Story Image ${index + 1}`}
-                            className="w-full h-64 object-cover rounded-lg"
+                            className="w-full h-72 object-cover rounded-lg"
                         />
                     </a>
                 ))}
             </div>
 
             {/* Content Section */}
-            <div className="bg-white p-8 rounded-lg shadow-md mb-12">
+            <div className="bg-white p-8 rounded-lg shadow-md mb-14">
                 <p className="text-lg leading-relaxed text-gray-700">{content}</p>
             </div>
         </div>

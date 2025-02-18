@@ -4,7 +4,7 @@ export default function Card({ pkg }) {
     const { _id, name, image, duration, destination, category, price } = pkg;
 
     return (
-        <div className="group relative overflow-hidden rounded-xl bg-white shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 w-72">
+        <div className="group relative overflow-hidden rounded-xl bg-white shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300 w-72 flex flex-col">
             {/* Photo */}
             <div className="relative w-full h-44 overflow-hidden">
                 {image && image.length > 0 ? (
@@ -24,7 +24,7 @@ export default function Card({ pkg }) {
             </div>
 
             {/* Card Content */}
-            <div className="p-4 space-y-1.5 text-left"> {/* Added text-left here */}
+            <div className="p-4 space-y-1.5 text-left flex-grow"> {/* Allow content area to grow */}
                 <h4 className="text-lg font-semibold text-gray-800">{name}</h4>
                 <p className="text-base text-gray-700 font-medium">
                     <span className="font-semibold text-blue-500">Price:</span> $ {price}
@@ -38,7 +38,7 @@ export default function Card({ pkg }) {
             </div>
 
             {/* Button */}
-            <div className="px-4 pb-4">
+            <div className="px-4 pb-4 mt-auto">
                 <Link
                     to={`/details/${_id}`}
                     className="block w-full text-left bg-gradient-to-r from-blue-500 to-green-400 text-white font-medium py-2 rounded-md shadow-md hover:from-blue-600 hover:to-green-500 hover:shadow-lg transition-all duration-300 text-sm px-4"

@@ -64,7 +64,7 @@ export default function Navbar() {
     );
 
     return (
-        <div className=' bg-gradient-to-r from-blue-500 to-green-400 text-white'>
+        <div className=' bg-gradient-to-r from-blue-500 to-green-400 text-white sticky top-0 z-50'>
             <div className="navbar w-10/12 mx-auto">
                 <div className="navbar-start flex items-center">
                     <div className="dropdown">
