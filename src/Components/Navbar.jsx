@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { FaHome, FaUsers, FaInfoCircle, FaSuitcase, FaTachometerAlt } from 'react-icons/fa';
+import { FaHome, FaUsers, FaInfoCircle, FaSuitcase, FaTachometerAlt, FaEnvelope } from 'react-icons/fa';
 import logo from '../../public/LOGO.png';
 import { Link, NavLink } from 'react-router-dom';
 import { useContext } from 'react';
@@ -42,16 +42,6 @@ export default function Navbar() {
             </li>
             <li>
                 <NavLink
-                    to="/aboutus"
-                    className={({ isActive }) =>
-                        isActive ? 'text-gray-200' : 'text-gray-800'
-                    }
-                >
-                    <FaInfoCircle className="mr-2" />About Us
-                </NavLink>
-            </li>
-            <li>
-                <NavLink
                     to="/alltrips"
                     className={({ isActive }) =>
                         isActive ? 'text-gray-200' : 'text-gray-800'
@@ -60,6 +50,31 @@ export default function Navbar() {
                     <FaSuitcase className="mr-2" />Trips
                 </NavLink>
             </li>
+            <li>
+                <NavLink
+                    to="/aboutus"
+                    className={({ isActive }) =>
+                        isActive ? 'text-gray-200' : 'text-gray-800'
+                    }
+                >
+                    <FaInfoCircle className="mr-2" />About Us
+                </NavLink>
+            </li>
+            {
+                user && (
+                    <li>
+                        <NavLink
+                            to="/contact"
+                            className={({ isActive }) =>
+                                isActive ? "text-gray-200" : "text-gray-800"
+                            }
+                        >
+                            <FaEnvelope className="mr-2" />Contact
+                        </NavLink>
+                    </li>
+                )
+            }
+
         </>
     );
 

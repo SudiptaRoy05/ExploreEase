@@ -25,6 +25,7 @@ import MyAssignedTours from "../Pages/Dashboard/TourGuide/MyAssignedTours";
 import AdminRoute from "./AdminRoute";
 import GuideRoute from "./GuideRoute";
 import ErrorPage from "../Components/ErrorPage";
+import Contact from "../Pages/Contact/Contact";
 // import Payment from "../Pages/Payment/Payment";
 
 
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
             {
                 path: '/aboutus',
                 element: <AboutUs></AboutUs>
+            },
+            {
+                path:'/contact',
+                element:<Contact></Contact>
             },
             {
                 path: '/login',
