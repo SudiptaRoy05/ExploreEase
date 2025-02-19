@@ -5,7 +5,7 @@ function Location() {
     return (
         <div className="w-10/12 mx-auto bg-white p-3 mt-6 rounded-lg">
             <div className="text-center my-10 font-sans">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Our Location</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">Our Location</h2>
                 <p className="text-gray-600 text-base md:text-lg mb-5">
                     Welcome to ExploreEase. Below is our location on the map:
                 </p>

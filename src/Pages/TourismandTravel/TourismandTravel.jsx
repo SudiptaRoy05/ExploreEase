@@ -26,7 +26,7 @@ export default function TourismandTravel() {
 
     return (
         <div className="w-11/12 sm:w-10/12 mx-auto mt-6 p-4 sm:p-8 md:p-12 bg-white text-gray-800 mb-6 rounded-lg shadow-lg">
-    <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-6 sm:mb-8 text-gray-800">Explore Our Travel Options</h2>
+    <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 text-gray-800">Explore Our Travel Options</h2>
 
     <Tabs>
         <div className="max-w-5xl mx-auto">

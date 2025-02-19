@@ -3,7 +3,7 @@ export default function OverView() {
     <section className="w-10/12 mx-auto mt-12 rounded-lg shadow-xl bg-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto text-center">
         {/* Section Title */}
-        <h2 className="text-4xl font-extrabold text-gray-900 sm:text-5xl">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 ">
           Discover Bangladesh with The Tourist Guide
         </h2>
         <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
