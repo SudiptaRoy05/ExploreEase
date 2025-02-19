@@ -16,7 +16,7 @@ export default function RandomStory() {
     return (
         <div className="w-11/12 sm:w-10/12 mx-auto p-4 sm:p-8 md:p-12 bg-white rounded-lg shadow-lg">
             <div className="flex flex-wrap justify-between items-center mb-6 sm:mb-8 gap-4">
-                <h2 className="text-lg sm:text-2xl font-semibold text-gray-800">Featured Stories</h2>
+                <h2 className="text-2xl sm:text-2xl font-bold text-gray-800">Featured Stories</h2>
                 <div className="flex gap-3 sm:gap-4">
                     <Link to="/community">
                         <button className="px-4 py-2 sm:px-6 sm:py-3 bg-gradient-to-r from-blue-500 to-green-400 text-white font-semibold rounded-lg shadow hover:scale-105 transition-transform">

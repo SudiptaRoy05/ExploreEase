@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Lottie from 'lottie-react';
-import loginAnimation from '../../assets/lottie/LoginLottie.json'; // Replace with your actual path
+import loginAnimation from '../../assets/lottie/LoginLottie.json';
 import { FaRegEnvelope, FaLock } from 'react-icons/fa';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
@@ -11,15 +11,14 @@ export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
     const fromPath = location.state?.from?.pathname || '/';
-
     const { login, forgotPass } = useContext(AuthContext);
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleLogin = (e) => {
         e.preventDefault();
-        const form = new FormData(e.target);
-        const email = form.get('email');
-        const password = form.get('password');
-
+        
         if (!email || !password) {
             Swal.fire({
                 icon: 'error',
@@ -31,21 +30,16 @@ export default function Login() {
         }
 
         login(email, password)
-            .then((result) => {
-                const user = result?.user || {};
+            .then(() => {
                 Swal.fire({
                     icon: 'success',
                     title: 'Login Successful',
                     text: `Welcome back`,
                     confirmButtonColor: '#3085d6',
                 });
-
-                // Navigate after showing the success alert
                 navigate(fromPath, { replace: true });
             })
-            .catch((error) => {
-                console.error(error);
-
+            .catch(() => {
                 Swal.fire({
                     icon: 'error',
                     title: 'Login Failed',
@@ -65,14 +59,11 @@ export default function Login() {
             confirmButtonText: 'Reset Password',
             cancelButtonText: 'Cancel',
             inputValidator: (value) => {
-                if (!value) {
-                    return 'Please enter a valid email!';
-                }
+                if (!value) return 'Please enter a valid email!';
             },
         }).then((result) => {
             if (result.isConfirmed) {
-                const email = result.value;
-                forgotPass(email)
+                forgotPass(result.value)
                     .then(() => {
                         Swal.fire({
                             icon: 'success',
@@ -80,8 +71,7 @@ export default function Login() {
                             text: 'A password reset email has been sent. Please check your inbox.',
                         });
                     })
-                    .catch((error) => {
-                        console.error(error);
+                    .catch(() => {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
@@ -90,6 +80,16 @@ export default function Login() {
                     });
             }
         });
+    };
+
+    const fillAdminCredentials = () => {
+        setEmail('ballavesudipta@gmail.com');
+        setPassword('Aa1111!');
+    };
+
+    const fillTourGuideCredentials = () => {
+        setEmail('sudiptaroyballave121@gmail.com');
+        setPassword('Aa1111!');
     };
 
     return (
@@ -115,6 +115,8 @@ export default function Login() {
                                 <input
                                     type="email"
                                     name="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Enter your email"
                                     className="input input-bordered w-full pl-10"
                                     required
@@ -132,6 +134,8 @@ export default function Login() {
                                 <input
                                     type="password"
                                     name="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     placeholder="Enter your password"
                                     className="input input-bordered w-full pl-10"
                                     required
@@ -153,6 +157,18 @@ export default function Login() {
                             </button>
                         </div>
                     </form>
+                    <button
+                        onClick={fillAdminCredentials}
+                        className="btn mt-3 bg-gray-700 text-white w-full"
+                    >
+                        Click to get Admin Credential
+                    </button>
+                    <button
+                        onClick={fillTourGuideCredentials}
+                        className="btn mt-3 bg-gray-700 text-white w-full"
+                    >
+                        Click to get Tour Guide Credential
+                    </button>
                     <SocialLogin />
                 </div>
             </div>

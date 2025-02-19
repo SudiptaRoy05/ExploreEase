@@ -1,7 +1,9 @@
 import Banner from "../../Components/Banner";
 import OverView from "../../Components/OverView";
+import Location from "../Location/Location";
 import RandomStory from "../RandomStory/RandomStory";
 import TourismandTravel from "../TourismandTravel/TourismandTravel";
+import TravelTips from "../TravelTips/TravelTips";
 
 export default function Home() {
     return (
@@ -9,6 +11,8 @@ export default function Home() {
             <Banner></Banner>
             <TourismandTravel></TourismandTravel>
             <RandomStory></RandomStory>
+            <TravelTips></TravelTips>
+            <Location></Location>
             <OverView></OverView>
         </div>
     )
